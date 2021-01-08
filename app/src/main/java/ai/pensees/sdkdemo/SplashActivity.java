@@ -46,6 +46,8 @@ public class SplashActivity extends AppCompatActivity {
     private void loadAnimation() {
         LinearLayout splash = (LinearLayout) findViewById(R.id.splash);
         splash.postDelayed(() -> {
+            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+            startActivity(intent);
             finish();
         }, 1000);
     }
