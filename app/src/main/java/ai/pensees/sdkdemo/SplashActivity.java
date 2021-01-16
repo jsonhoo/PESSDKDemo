@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final RxPermissions rxPermissions = new RxPermissions(this);
             rxPermissions
-                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE)
                     .subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean granted) throws Throwable {
