@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ai.pensees.sdkdemo.MainActivity">
+
+   <Button
+       android:id="@+id/btn_user_manage"
+       android:text="用户管理"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_face_record_manage"
+        android:text="脸部识别管理"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_password_door_manage"
+        android:text="密码开门管理"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_rfid_manage"
+        android:text="刷卡管理"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_temp_manage"
+        android:text="测温管理"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_config"
+        android:text="服务配置"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+</LinearLayout>

@@ -93,12 +93,11 @@ class MainActivity: AppCompatActivity() {
     }
 
     //检测人脸个数
-    fun checkFace(resId:Int)
-    {
+    fun checkFace(resId:Int) {
         val bitmap = BitmapFactory.decodeResource(getResources(), resId)
         val bgr = ImageUtils.bitmapToBGR(bitmap)
-        for (i in 0..10)
-        {
+
+        for (i in 0..10) {
             val start = System.currentTimeMillis()
             var count = PESFaceDetect.check(
                     bgr,
@@ -111,25 +110,30 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    fun start(resId: Int)
-    {
+    fun start(resId: Int) {
         val bitmap = BitmapFactory.decodeResource(getResources(), resId)
         val bgr = ImageUtils.bitmapToBGR(bitmap)
-        for (i in 0..10)
-        {
-            val start = System.currentTimeMillis()
+
+        for (i in 0..10) {
+            val start = System.currentTimeMillis();
+
             var result:List<FaceInfo> = PESFaceDetect.detect(
                     bgr,
                     bitmap.width,
                     bitmap.height,
                     SDKConstant.IMAGE_FORMAT_BGR
             )
+
             val end = System.currentTimeMillis()
             val qualuty = PESQuality.detect(result.first().rect,bgr,bitmap.width, bitmap.height, SDKConstant.IMAGE_FORMAT_BGR)
+
             val end2 = System.currentTimeMillis()
             val mask = PESMask.detect(result.first().landmark.raw,bgr,bitmap.width,bitmap.height,SDKConstant.IMAGE_FORMAT_BGR)
+
+
             val end3 = System.currentTimeMillis()
             val feature = PESFeature.extract(result.first().landmark.raw,bgr,bitmap.width,bitmap.height,SDKConstant.IMAGE_FORMAT_BGR)
+
             val end4 = System.currentTimeMillis()
             Log.e("zzz", "count = ${result.size} time:${end -start}\n quality = $qualuty time:${end2 -end} \n mask=$mask time:${end3 - end2}\n feature = ${feature.size} time:${end4 - end3}")
         }

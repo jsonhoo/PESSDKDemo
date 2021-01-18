@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 29
@@ -27,7 +28,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -42,4 +42,20 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
+    //greendao
+    implementation 'org.greenrobot:greendao:3.3.0' // add library
+//    implementation 'org.greenrobot:greendao-generator:3.2.0' // add library
+//    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+}
+
+
+greendao {
+    // 数据库版本号
+    schemaVersion 1
+    // 生成数据库文件的目录
+    targetGenDir 'src/main/java'
+    // 生成的数据库相关文件的包名
+    daoPackage 'ai.pensees.sdkdemo.gen'
 }
