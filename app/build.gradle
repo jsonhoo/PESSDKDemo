@@ -14,6 +14,11 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,6 +33,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        doNotStrip "*/armeabi/libYTCommon.so"
+        doNotStrip "*/armeabi-v7a/libYTCommon.so"
+        doNotStrip "*/x86/libYTCommon.so"
+        doNotStrip "*/arm64-v8a/libYTCommon.so"
+    }
 }
 
 dependencies {
@@ -35,10 +48,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    compile 'com.github.ctiao:ndkbitmap-x86:0.9.21'
+    implementation 'com.github.ctiao:ndkbitmap-x86:0.9.21'
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
@@ -48,6 +62,12 @@ dependencies {
 //    implementation 'org.greenrobot:greendao-generator:3.2.0' // add library
 //    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
+    implementation project(':tencentliteavrtc')
+    implementation rootProject.ext.liteavSdk
+    implementation rootProject.ext.imSdk
+    //依赖一个utils类
+    implementation 'com.blankj:utilcode:1.25.9'
 }
 
 

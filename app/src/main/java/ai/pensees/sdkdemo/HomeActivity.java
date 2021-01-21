@@ -7,6 +7,20 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.het.tencentliteavrtc.model.TRTCCalling;
+import com.het.tencentliteavrtc.model.TRTCCallingDelegate;
+import com.het.tencentliteavrtc.model.impl.TRTCCallingImpl;
+import com.het.tencentliteavrtc.ui.TRTCCallingEntranceActivity;
+import com.het.tencentliteavrtc.ui.audiocall.TRTCAudioCallActivity;
+import com.het.tencentliteavrtc.ui.videocall.TRTCVideoCallActivity;
+import com.het.tencentliteavrtc.usr.GenerateTestUserSig;
+import com.het.tencentliteavrtc.usr.ProfileManager;
+import com.het.tencentliteavrtc.usr.UserModel;
+
+import java.util.List;
+import java.util.Map;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,6 +60,158 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_manager;
     private TextView tv_security;
     private TextView tv_household;
+
+
+    private TRTCCalling mTRTCCalling;
+
+    private TRTCCallingDelegate mTRTCCallingDelegate = new TRTCCallingDelegate() {
+        // <editor-fold  desc="视频监听代码">
+        @Override
+        public void onError(int code, String msg) {
+        }
+
+        @Override
+        public void onInvited(String sponsor, final List<String> userIdList, boolean isFromGroup, final int callType) {
+            //1. 收到邀请，先到服务器查询
+            ProfileManager.getInstance().getUserInfoByUserId(sponsor, new ProfileManager.GetUserInfoCallback() {
+                @Override
+                public void onSuccess(final UserModel model) {
+                    if (callType == TRTCCalling.TYPE_VIDEO_CALL) {
+                        TRTCVideoCallActivity.UserInfo selfInfo = new TRTCVideoCallActivity.UserInfo();
+                        selfInfo.userId = ProfileManager.getInstance().getUserModel().userId;
+                        selfInfo.userAvatar = ProfileManager.getInstance().getUserModel().userAvatar;
+                        selfInfo.userName = ProfileManager.getInstance().getUserModel().userName;
+                        TRTCVideoCallActivity.UserInfo callUserInfo = new TRTCVideoCallActivity.UserInfo();
+                        callUserInfo.userId = model.userId;
+                        callUserInfo.userAvatar = model.userAvatar;
+                        callUserInfo.userName = model.userName;
+                        TRTCVideoCallActivity.startBeingCall(HomeActivity.this, selfInfo, callUserInfo, null);
+                    } else if (callType == TRTCCalling.TYPE_AUDIO_CALL) {
+                        TRTCAudioCallActivity.UserInfo selfInfo = new TRTCAudioCallActivity.UserInfo();
+                        selfInfo.userId = ProfileManager.getInstance().getUserModel().userId;
+                        selfInfo.userAvatar = ProfileManager.getInstance().getUserModel().userAvatar;
+                        selfInfo.userName = ProfileManager.getInstance().getUserModel().userName;
+                        TRTCAudioCallActivity.UserInfo callUserInfo = new TRTCAudioCallActivity.UserInfo();
+                        callUserInfo.userId = model.userId;
+                        callUserInfo.userAvatar = model.userAvatar;
+                        callUserInfo.userName = model.userName;
+                        TRTCAudioCallActivity.startBeingCall(HomeActivity.this, selfInfo, callUserInfo, null);
+                    }
+                }
+
+                @Override
+                public void onFailed(int code, String msg) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onGroupCallInviteeListUpdate(List<String> userIdList) {
+
+        }
+
+        @Override
+        public void onUserEnter(String userId) {
+
+        }
+
+        @Override
+        public void onUserLeave(String userId) {
+
+        }
+
+        @Override
+        public void onReject(String userId) {
+
+        }
+
+        @Override
+        public void onNoResp(String userId) {
+
+        }
+
+        @Override
+        public void onLineBusy(String userId) {
+
+        }
+
+        @Override
+        public void onCallingCancel() {
+
+        }
+
+        @Override
+        public void onCallingTimeout() {
+
+        }
+
+        @Override
+        public void onCallEnd() {
+
+        }
+
+        @Override
+        public void onUserVideoAvailable(String userId, boolean isVideoAvailable) {
+
+        }
+
+        @Override
+        public void onUserAudioAvailable(String userId, boolean isVideoAvailable) {
+
+        }
+
+        @Override
+        public void onUserVoiceVolume(Map<String, Integer> volumeMap) {
+
+        }
+        // </editor-fold  desc="视频监听代码">
+    };
+
+    private void initTRTCCallingData() {
+
+        ProfileManager.getInstance().login("123", "", new ProfileManager.ActionCallback() {
+            @Override
+            public void onSuccess() {
+                //登录成功
+                mTRTCCalling = TRTCCallingImpl.sharedInstance(HomeActivity.this);
+                mTRTCCalling.addDelegate(mTRTCCallingDelegate);
+                int    appid   = GenerateTestUserSig.SDKAPPID;
+                String userId  = ProfileManager.getInstance().getUserModel().userId;
+                String userSig = ProfileManager.getInstance().getUserModel().userSig;
+                mTRTCCalling.login(appid, userId, userSig, new TRTCCalling.ActionCallBack() {
+                    @Override
+                    public void onError(int code, String msg) {
+                        ToastUtils.showShort("腾讯IM登录失败");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(HomeActivity.this, TRTCCallingEntranceActivity.class);
+                        intent.putExtra("TITLE", "视频通话");
+                        intent.putExtra("TYPE", TRTCCalling.TYPE_VIDEO_CALL);
+                        HomeActivity.this.startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mTRTCCalling != null) {
+            mTRTCCalling.removeDelegate(mTRTCCallingDelegate);
+        }
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -242,6 +408,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 phone_num.setVisibility(View.GONE);
                 room_num.setVisibility(View.GONE);
                 phone_call.setVisibility(View.VISIBLE);
+                //
+                initTRTCCallingData();
                 break;
             case R.id.ll_manager:
                 callPhone(tv_manager.getText().toString().trim());

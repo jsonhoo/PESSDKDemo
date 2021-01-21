@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Generated;
 
 //用户信息
 @Entity
@@ -24,6 +25,24 @@ public class UserModel {
     private long updateTime;
     //用户卡
     private String carNo;
+
+    @Generated(hash = 470213102)
+    public UserModel(long id, String userNo, @NotNull String userName,
+            @NotNull byte[] feature, @NotNull String faceUrl, long createTime,
+            long updateTime, String carNo) {
+        this.id = id;
+        this.userNo = userNo;
+        this.userName = userName;
+        this.feature = feature;
+        this.faceUrl = faceUrl;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.carNo = carNo;
+    }
+
+    @Generated(hash = 782181818)
+    public UserModel() {
+    }
 
     public long getId() {
         return id;

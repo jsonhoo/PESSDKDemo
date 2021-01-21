@@ -1,6 +1,6 @@
 package ai.pensees.sdkdemo.utils;
 
-import ai.pensees.sdkdemo.dao.UserDao;
+//import ai.pensees.sdkdemo.dao.UserDao;
 import ai.pensees.sdkdemo.model.UserModel;
 
 /**
@@ -16,8 +16,8 @@ public class DaoUtilsStore {
 
     private DaoUtilsStore() {
         DaoManager mManager = DaoManager.getInstance();
-        UserDao _UserDao = mManager.getDaoSession().getUserDao();
-        mUserDaoUtils = new CommonDaoUtils<>(UserModel.class, _UserDao);
+//        UserDao _UserDao = mManager.getDaoSession().getUserDao();
+//        mUserDaoUtils = new CommonDaoUtils<>(UserModel.class, _UserDao);
     }
 
     public CommonDaoUtils<UserModel> getUserDaoUtils() {

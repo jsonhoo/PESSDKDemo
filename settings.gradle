@@ -1,2 +1,3 @@
+include ':tencentliteavrtc'
 rootProject.name='PESSDKDemo'
 include ':app'
