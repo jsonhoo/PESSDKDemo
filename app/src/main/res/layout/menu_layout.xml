@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="48dp"
+    android:paddingBottom="48dp"
+    android:stretchColumns="0,1,2">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/password_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="56dp"
+            android:drawableTop="@mipmap/ic_password_open"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="密码开门"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/phone_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_phone_call"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="手机呼叫"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/house_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:drawableTop="@mipmap/ic_house_call"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="房号呼叫"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/property_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="56dp"
+            android:drawableTop="@mipmap/ic_property_call"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="物业呼叫"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_settings"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="配置"
+            android:textSize="16sp" />
+
+    </TableRow>
+
+</TableLayout>

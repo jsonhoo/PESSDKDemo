@@ -47,6 +47,7 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar', "*.aar"])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -63,6 +64,7 @@ dependencies {
 //    implementation 'org.greenrobot:greendao-generator:3.2.0' // add library
 //    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.otaliastudios:cameraview:2.6.4'
 
     implementation project(':tencentliteavrtc')
     implementation rootProject.ext.liteavSdk

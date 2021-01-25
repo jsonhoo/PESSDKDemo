@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="item_height">45dp</dimen>
@@ -6,4 +7,5 @@
 
     <dimen name="title_textSize">18sp</dimen>
 
+    <dimen name="dial_num_margin_left">16dp</dimen>
 </resources>

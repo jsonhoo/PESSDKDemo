@@ -1,11 +1,13 @@
 package ai.pensees.sdkdemo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.ImageFormat;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.het.tencentliteavrtc.model.TRTCCalling;
@@ -17,49 +19,44 @@ import com.het.tencentliteavrtc.ui.videocall.TRTCVideoCallActivity;
 import com.het.tencentliteavrtc.usr.GenerateTestUserSig;
 import com.het.tencentliteavrtc.usr.ProfileManager;
 import com.het.tencentliteavrtc.usr.UserModel;
+import com.otaliastudios.cameraview.CameraException;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraOptions;
+import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.PictureResult;
+import com.otaliastudios.cameraview.VideoResult;
+import com.otaliastudios.cameraview.controls.PictureFormat;
+import com.otaliastudios.cameraview.size.Size;
 
+import org.jetbrains.annotations.NotNull;
+
+import ai.pensees.commons.ImageUtils;
+import ai.pensees.sdk.common.SDKConstant;
+import ai.pensees.sdk.facedetect.PESFaceDetect;
 import java.util.List;
 import java.util.Map;
 
+import ai.pensees.sdkdemo.layout.DialLayout;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = "liu.js";
+    private static final int TYPE_NONE = -1;
+    private static final int TYPE_PASSWORD_OPEN = 1;
+    private static final int TYPE_PHONE_CALL = 2;
+    private static final int TYPE_HOUSE_CALL = 3;
+    private static final int TYPE_PROPERTY_CALL = 4;
 
-    private LinearLayout ll_center_num;
+    private DialLayout mPasswordLayout;
+    private DialLayout mPhoneCallLayout;
+    private DialLayout mHouseCallLayout;
+    private DialLayout mPropertyLayout;//物业
+    private int mCallType = TYPE_NONE;
+    private CameraView mCameraView;
 
-    private LinearLayout pwd_num;
-    private LinearLayout phone_num;
-    private LinearLayout room_num;
 
-    private LinearLayout phone_call;
-
-    private TextView tvPwd;
-    private TextView tvPhone;
-
-    private TextView tv0;
-    private TextView tv1;
-    private TextView tv2;
-    private TextView tv3;
-    private TextView tv4;
-    private TextView tv5;
-    private TextView tv6;
-    private TextView tv7;
-    private TextView tv8;
-    private TextView tv9;
-    private TextView tvBack;
-    private TextView tvClear;
-
-    private int clickType = 1;//值为1234 对应下面密码开门四个按钮
-
-    private TextView tvSure;
-
-    private LinearLayout ll_manager;
-    private LinearLayout ll_security;
-    private LinearLayout ll_household;
-    private TextView tv_manager;
-    private TextView tv_security;
-    private TextView tv_household;
 
 
     private TRTCCalling mTRTCCalling;
@@ -216,209 +213,178 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PESFaceDetect.init(this);
+
         setContentView(R.layout.activity_home);
         initView();
     }
 
     private void initView() {
-        tvPwd = findViewById(R.id.tvPwd);
-        tvPhone = findViewById(R.id.tvPhone);
-        tv0 = findViewById(R.id.tv0);
-        tv1 = findViewById(R.id.tv1);
-        tv2 = findViewById(R.id.tv2);
-        tv3 = findViewById(R.id.tv3);
-        tv4 = findViewById(R.id.tv4);
-        tv5 = findViewById(R.id.tv5);
-        tv6 = findViewById(R.id.tv6);
-        tv7 = findViewById(R.id.tv7);
-        tv8 = findViewById(R.id.tv8);
-        tv9 = findViewById(R.id.tv9);
-        tvBack = findViewById(R.id.tvBack);
-        tvClear = findViewById(R.id.tvClear);
-        tv0.setOnClickListener(this);
-        tv1.setOnClickListener(this);
-        tv2.setOnClickListener(this);
-        tv3.setOnClickListener(this);
-        tv4.setOnClickListener(this);
-        tv5.setOnClickListener(this);
-        tv6.setOnClickListener(this);
-        tv7.setOnClickListener(this);
-        tv8.setOnClickListener(this);
-        tv9.setOnClickListener(this);
-        tvBack.setOnClickListener(this);
-        tvClear.setOnClickListener(this);
+        mCameraView = findViewById(R.id.camera_view);
+        mCameraView.setLifecycleOwner(this);
+        mCameraView.setPictureFormat(PictureFormat.JPEG);
+        mCameraView.setFrameProcessingFormat(ImageFormat.NV21);
+        mCameraView.addCameraListener(new CameraListener() {
+            @Override
+            public void onCameraOpened(@NonNull CameraOptions options) {
+                super.onCameraOpened(options);
+            }
 
-        tvSure = findViewById(R.id.tvSure);
-        tvSure.setOnClickListener(this);
+            @Override
+            public void onCameraClosed() {
+                super.onCameraClosed();
+            }
 
-        ll_center_num = findViewById(R.id.ll_center_num);
-        pwd_num = findViewById(R.id.pwd_num);
-        phone_num = findViewById(R.id.phone_num);
-        room_num = findViewById(R.id.room_num);
-        phone_call = findViewById(R.id.phone_call);
+            @Override
+            public void onCameraError(@NonNull CameraException exception) {
+                super.onCameraError(exception);
+            }
 
-        TextView pwd_open = findViewById(R.id.pwd_open);
-        pwd_open.setOnClickListener(this);
-        TextView phone_open = findViewById(R.id.phone_open);
-        phone_open.setOnClickListener(this);
-        TextView room_num_open = findViewById(R.id.room_num_open);
-        room_num_open.setOnClickListener(this);
-        TextView property_open = findViewById(R.id.property_open);
-        property_open.setOnClickListener(this);
+            @Override
+            public void onPictureTaken(@NonNull PictureResult result) {
+                super.onPictureTaken(result);
+                result.toBitmap(bitmap -> {
+                    Size size = result.getSize();
+                    byte[] toRGB = ImageUtils.bitmapToRGB(bitmap);
+                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
+                    Log.d(TAG, "Faces Count=" + count);
+                });
+            }
 
-        ll_manager = findViewById(R.id.ll_manager);
-        ll_security = findViewById(R.id.ll_security);
-        ll_household = findViewById(R.id.ll_household);
-        ll_manager.setOnClickListener(this);
-        ll_security.setOnClickListener(this);
-        ll_household.setOnClickListener(this);
+            @Override
+            public void onVideoTaken(@NonNull VideoResult result) {
+                super.onVideoTaken(result);
+            }
 
-        tv_manager = findViewById(R.id.tv_manager);
-        tv_security = findViewById(R.id.tv_security);
-        tv_household = findViewById(R.id.tv_household);
+            @Override
+            public void onOrientationChanged(int orientation) {
+                super.onOrientationChanged(orientation);
+            }
+
+            @Override
+            public void onAutoFocusStart(@NonNull PointF point) {
+                super.onAutoFocusStart(point);
+            }
+
+            @Override
+            public void onAutoFocusEnd(boolean successful, @NonNull PointF point) {
+                super.onAutoFocusEnd(successful, point);
+            }
+
+            @Override
+            public void onZoomChanged(float newValue, @NonNull float[] bounds, @Nullable PointF[] fingers) {
+                super.onZoomChanged(newValue, bounds, fingers);
+            }
+
+            @Override
+            public void onExposureCorrectionChanged(float newValue, @NonNull float[] bounds, @Nullable PointF[] fingers) {
+                super.onExposureCorrectionChanged(newValue, bounds, fingers);
+            }
+
+            @Override
+            public void onVideoRecordingStart() {
+                super.onVideoRecordingStart();
+            }
+
+            @Override
+            public void onVideoRecordingEnd() {
+                super.onVideoRecordingEnd();
+            }
+        });
+        mPasswordLayout = findViewById(R.id.dial_password_open);
+        mPasswordLayout.setInputHint("输入住户密码，按“确认”键开门");
+        mPasswordLayout.setMListener(new DialLayout.DialListener() {
+            @Override
+            public void onConfirm(@NotNull String inputText) {
+                callPhone(inputText);
+            }
+
+            @Override
+            public void onClose() {
+                super.onClose();
+                mCallType = TYPE_NONE;
+            }
+        });
+
+        mPhoneCallLayout = findViewById(R.id.dial_phone_call);
+        mPhoneCallLayout.setInputHint("输入手机号码，按“确认”键呼叫");
+        mPhoneCallLayout.setMListener(new DialLayout.DialListener() {
+            @Override
+            public void onConfirm(@NotNull String inputText) {
+                callPhone(inputText);
+            }
+
+            @Override
+            public void onClose() {
+                super.onClose();
+                mCallType = TYPE_NONE;
+            }
+        });
+
+        mHouseCallLayout = findViewById(R.id.dial_house_call);
+        mHouseCallLayout.setInputHint("输入住户手机号码，按“确认”键呼叫");
+        mHouseCallLayout.setMListener(new DialLayout.DialListener() {
+            @Override
+            public void onConfirm(@NotNull String inputText) {
+                callPhone(inputText);
+            }
+
+            @Override
+            public void onClose() {
+                super.onClose();
+                mCallType = TYPE_NONE;
+            }
+        });
+
+        mPropertyLayout = findViewById(R.id.dial_property_call);
+        mPropertyLayout.setInputHint("输入物业号码，按“确认”键呼叫");
+        mPropertyLayout.setMListener(new DialLayout.DialListener() {
+            @Override
+            public void onConfirm(@NotNull String inputText) {
+                callPhone(inputText);
+            }
+
+            @Override
+            public void onClose() {
+                super.onClose();
+                mCallType = TYPE_NONE;
+            }
+        });
+
+        findViewById(R.id.password_open).setOnClickListener(this);
+        findViewById(R.id.phone_call).setOnClickListener(this);
+        findViewById(R.id.house_call).setOnClickListener(this);
+        findViewById(R.id.property_call).setOnClickListener(this);
+        findViewById(R.id.settings).setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
+        if (mCallType != TYPE_NONE) {//防止快速点击
+            return;
+        }
         switch (v.getId()) {
-            case R.id.tv0:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("0"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("0"));
-                }
+            case R.id.password_open:
+                mCallType = TYPE_PASSWORD_OPEN;
+                mPasswordLayout.setVisibility(View.VISIBLE);
                 break;
-            case R.id.tv1:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("1"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("1"));
-                }
+            case R.id.phone_call:
+                mCallType = TYPE_PHONE_CALL;
+                mPhoneCallLayout.setVisibility(View.VISIBLE);
                 break;
-            case R.id.tv2:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("2"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("2"));
-                }
+            case R.id.house_call:
+                mCallType = TYPE_HOUSE_CALL;
+                mHouseCallLayout.setVisibility(View.VISIBLE);
                 break;
-            case R.id.tv3:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("3"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("3"));
-                }
-                break;
-            case R.id.tv4:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("4"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("4"));
-                }
-                break;
-            case R.id.tv5:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("5"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("5"));
-                }
-                break;
-            case R.id.tv6:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("6"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("6"));
-                }
-                break;
-            case R.id.tv7:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("7"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("7"));
-                }
-                break;
-            case R.id.tv8:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("8"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("8"));
-                }
-                break;
-            case R.id.tv9:
-                if (clickType == 1) {
-                    tvPwd.setText(new StringBuilder(tvPwd.getText().toString().trim()).append("9"));
-                } else if (clickType == 2) {
-                    tvPhone.setText(new StringBuilder(tvPhone.getText().toString().trim()).append("9"));
-                }
-                break;
-            case R.id.tvBack:
-                if (clickType == 1) {
-                    if (tvPwd.getText().toString().length() > 1) {
-                        tvPwd.setText(tvPwd.getText().toString().substring(0, tvPwd.getText().toString().length() - 1));
-                    } else {
-                        tvPwd.setText("");
-                    }
-                } else if (clickType == 2) {
-                    if (tvPhone.getText().toString().length() > 1) {
-                        tvPhone.setText(tvPhone.getText().toString().substring(0, tvPhone.getText().toString().length() - 1));
-                    } else {
-                        tvPhone.setText("");
-                    }
-                }
-                break;
-            case R.id.tvClear:
-                if (clickType == 1) {
-                    tvPwd.setText("");
-                } else if (clickType == 2) {
-                    tvPhone.setText("");
-                }
-                break;
-            case R.id.tvSure:
-                break;
-            case R.id.pwd_open:
-                clickType = 1;
-                tvPhone.setText("");
-                ll_center_num.setVisibility(View.VISIBLE);
-                pwd_num.setVisibility(View.VISIBLE);
-                phone_num.setVisibility(View.GONE);
-                room_num.setVisibility(View.GONE);
-                phone_call.setVisibility(View.GONE);
-                break;
-            case R.id.phone_open:
-                clickType = 2;
-                tvPwd.setText("");
-                ll_center_num.setVisibility(View.VISIBLE);
-                pwd_num.setVisibility(View.GONE);
-                phone_num.setVisibility(View.VISIBLE);
-                room_num.setVisibility(View.GONE);
-                phone_call.setVisibility(View.GONE);
-                break;
-            case R.id.room_num_open:
-                clickType = 3;
-                ll_center_num.setVisibility(View.VISIBLE);
-                pwd_num.setVisibility(View.GONE);
-                phone_num.setVisibility(View.GONE);
-                room_num.setVisibility(View.VISIBLE);
-                phone_call.setVisibility(View.GONE);
-                break;
-            case R.id.property_open:
-                clickType = 4;
-                ll_center_num.setVisibility(View.GONE);
-                pwd_num.setVisibility(View.GONE);
-                phone_num.setVisibility(View.GONE);
-                room_num.setVisibility(View.GONE);
-                phone_call.setVisibility(View.VISIBLE);
-                //
+            case R.id.property_call:
+                mCallType = TYPE_PROPERTY_CALL;
+                mPropertyLayout.setVisibility(View.VISIBLE);
                 initTRTCCallingData();
                 break;
-            case R.id.ll_manager:
-                callPhone(tv_manager.getText().toString().trim());
-                break;
-            case R.id.ll_security:
-                callPhone(tv_security.getText().toString().trim());
-                break;
-            case R.id.ll_household:
-                callPhone(tv_household.getText().toString().trim());
+            case R.id.settings:
+                //TODO StartSettings
+                mCameraView.takePicture();
                 break;
         }
     }
@@ -433,5 +399,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

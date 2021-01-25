@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+    <ImageView
+        android:id="@+id/close_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="12dp"
+        android:src="@mipmap/close" />
+
+    <TextView
+        android:id="@+id/inputText"
+        android:layout_width="440dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/pwd_enter"
+        android:gravity="center_vertical"
+        android:hint="  请输入住户密码，按确认键开门"
+        android:padding="6dp" />
+
+    <LinearLayout
+        android:layout_width="440dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="回删"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="6"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/tv7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="7"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="9"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dial_num_margin_left"
+                    android:layout_marginRight="@dimen/dial_num_margin_left"
+                    android:layout_marginBottom="@dimen/dial_num_margin_left"
+                    android:background="@drawable/number_selector"
+                    android:gravity="center"
+                    android:text="清空"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18dp" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/home_selector"
+            android:gravity="center"
+            android:text="确\n认"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

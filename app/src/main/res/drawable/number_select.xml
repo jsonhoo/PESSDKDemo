@@ -6,6 +6,6 @@
     <!-- 边缘线条颜色 -->
     <!-- 圆角的幅度 -->
     <size
-        android:width="55dp"
-        android:height="55dp" />
+        android:width="56dp"
+        android:height="56dp" />
 </shape>
