@@ -8,7 +8,7 @@ public class FaceRecord {
     //识别用户编号
     private String userNo;
     //识别时间
-    private long time;
+    private String time;
     //识别结果(1-成功，2-失败)
     private int state;
 

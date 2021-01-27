@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <ai.pensees.sdkdemo.widget.TitleView
+      android:id="@+id/title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+  <RelativeLayout
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_client_name"
+        android:textSize="18sp"
+        android:textColor="#232323"
+        android:text="设备名称: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ai.pensees.sdkdemo.widget.ClearEditText
+        android:background="@drawable/edit_bg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_client_name"
+        android:id="@+id/input_client_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="7dp"
+        android:textCursorDrawable="@null"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:hint="请输入设备名称"
+        android:textColor="#232323"/>
+
+  </RelativeLayout>
+
+
+  <RelativeLayout
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_estate"
+        android:textSize="18sp"
+        android:textColor="#232323"
+        android:text="小区名称: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ai.pensees.sdkdemo.widget.ClearEditText
+        android:background="@drawable/edit_bg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_estate"
+        android:id="@+id/input_estate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="7dp"
+        android:textCursorDrawable="@null"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:hint="请输入小区名称"
+        android:textColor="#232323"/>
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_estate_ld"
+        android:textSize="18sp"
+        android:textColor="#232323"
+        android:text="小区楼栋: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ai.pensees.sdkdemo.widget.ClearEditText
+        android:background="@drawable/edit_bg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_estate_ld"
+        android:id="@+id/input_estate_ld"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="7dp"
+        android:textCursorDrawable="@null"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:hint="请输入楼栋"
+        android:textColor="#232323"/>
+
+  </RelativeLayout>
+
+
+  <RelativeLayout
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_estate_lc"
+        android:textSize="18sp"
+        android:textColor="#232323"
+        android:text="房间楼层: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ai.pensees.sdkdemo.widget.ClearEditText
+        android:background="@drawable/edit_bg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_estate_lc"
+        android:id="@+id/input_estate_lc"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="7dp"
+        android:textCursorDrawable="@null"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:hint="请输入房间楼层"
+        android:textColor="#232323"/>
+
+  </RelativeLayout>
+
+
+  <RelativeLayout
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_room_no"
+        android:textSize="18sp"
+        android:textColor="#232323"
+        android:text="房间编号: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ai.pensees.sdkdemo.widget.ClearEditText
+        android:background="@drawable/edit_bg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_room_no"
+        android:id="@+id/input_room_no"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:paddingLeft="7dp"
+        android:textCursorDrawable="@null"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:hint="请输入房间编号"
+        android:textColor="#232323"/>
+
+  </RelativeLayout>
+
+
+  <Button
+      android:id="@+id/btn_save"
+      android:textColor="#ffffff"
+      android:textSize="20sp"
+      android:text="保存"
+      android:layout_marginTop="30dp"
+      android:background="@drawable/btn_selector"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+</LinearLayout>

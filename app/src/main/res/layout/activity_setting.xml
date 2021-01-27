@@ -3,43 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:itemview="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="ai.pensees.sdkdemo.MainActivity">
 
-   <Button
-       android:id="@+id/btn_user_manage"
-       android:text="用户管理"
-       android:layout_width="match_parent"
-       android:layout_height="50dp"/>
+  <ai.pensees.sdkdemo.widget.TitleView
+      android:id="@+id/title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btn_face_record_manage"
-        android:text="脸部识别管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_user"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="用户管理"
+      itemview:item_left_img_res="@mipmap/tab_my_friend"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
 
-    <Button
-        android:id="@+id/btn_password_door_manage"
-        android:text="密码开门管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_service"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="服务管理"
+      itemview:item_left_img_res="@mipmap/user_my_integral"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
 
-    <Button
-        android:id="@+id/btn_rfid_manage"
-        android:text="刷卡管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_device_position"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="设备位置"
+      itemview:item_left_img_res="@mipmap/user_my_favorites"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
 
-    <Button
-        android:id="@+id/btn_temp_manage"
-        android:text="测温管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_face_record"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="人脸记录"
+      itemview:item_left_img_res="@mipmap/user_my_posts"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
 
-    <Button
-        android:id="@+id/btn_config"
-        android:text="服务配置"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_card_record"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="刷卡记录"
+      itemview:item_left_img_res="@mipmap/alarm"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
+
+  <ai.pensees.sdkdemo.widget.ItemView
+      android:id="@+id/itemview_config_network"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/item_height"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/item_selector"
+      android:clickable="true"
+      android:text="网络配置"
+      itemview:item_left_img_res="@mipmap/tab_my_device"
+      itemview:item_right_img_res="@mipmap/arrow_right"
+      tools:ignore="InconsistentLayout" />
 
 </LinearLayout>

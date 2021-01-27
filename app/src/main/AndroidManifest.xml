@@ -27,6 +27,14 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
+        <activity android:name=".AddUserActivity" />
+        <activity android:name=".CardRcordActivity" />
+        <activity android:name=".DevicePositionConfigActivity" />
+        <activity android:name=".FaceRcordActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".ServerConfigActivity" />
+        <activity android:name=".UserManageActivity" />
+
     </application>
 
 </manifest>

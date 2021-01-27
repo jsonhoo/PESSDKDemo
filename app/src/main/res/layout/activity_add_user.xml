@@ -6,15 +6,20 @@
     android:orientation="vertical"
     tools:context="ai.pensees.sdkdemo.MainActivity">
 
+    <ai.pensees.sdkdemo.widget.TitleView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ImageView
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/gtw2"
-        android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
@@ -24,23 +29,28 @@
         <TextView
             android:layout_centerVertical="true"
             android:id="@+id/tv_no"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:textColor="#232323"
             android:text="用户编号:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.inputmethodservice.ExtractEditText
-            android:textSize="18sp"
+        <ai.pensees.sdkdemo.widget.ClearEditText
             android:layout_toRightOf="@+id/tv_no"
             android:id="@+id/input_user_no"
-            android:hint="请输入用户编号"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:paddingLeft="7dp"
+            android:textCursorDrawable="@null"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:hint="请输入用户编号"
+            android:textColor="#232323"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
@@ -50,23 +60,29 @@
         <TextView
             android:layout_centerVertical="true"
             android:id="@+id/tv_name"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:textColor="#232323"
             android:text="姓名:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.inputmethodservice.ExtractEditText
-            android:textSize="18sp"
+        <ai.pensees.sdkdemo.widget.ClearEditText
             android:layout_toRightOf="@+id/tv_name"
             android:id="@+id/input_user_name"
-            android:hint="请输入用户姓名"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:paddingLeft="7dp"
+            android:textCursorDrawable="@null"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:hint="请输入用户姓名"
+            android:textColor="#232323"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
@@ -76,18 +92,111 @@
         <TextView
             android:layout_centerVertical="true"
             android:id="@+id/tv_carNo"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:textColor="#232323"
             android:text="卡号:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <android.inputmethodservice.ExtractEditText
-            android:textSize="18sp"
+
+        <ai.pensees.sdkdemo.widget.ClearEditText
             android:layout_toRightOf="@+id/tv_carNo"
             android:id="@+id/input_user_carNo"
-            android:hint="请输入卡号"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:paddingLeft="7dp"
+            android:textCursorDrawable="@null"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:hint="请输入用户姓名"
+            android:textColor="#232323"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_phone"
+            android:textSize="18sp"
+            android:textColor="#232323"
+            android:text="电话:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <ai.pensees.sdkdemo.widget.ClearEditText
+            android:layout_toRightOf="@+id/tv_phone"
+            android:id="@+id/input_user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:paddingLeft="7dp"
+            android:textCursorDrawable="@null"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:hint="请输入用户姓名"
+            android:textColor="#232323"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_user_address"
+            android:textSize="18sp"
+            android:textColor="#232323"
+            android:text="住址:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ai.pensees.sdkdemo.widget.ClearEditText
+            android:layout_toRightOf="@+id/tv_user_address"
+            android:id="@+id/input_user_address"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:paddingLeft="7dp"
+            android:textCursorDrawable="@null"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:hint="请输入用户姓名"
+            android:textColor="#232323"/>
+
+    </RelativeLayout>
+
+    <RadioButton
+        android:id="@+id/rb_manage"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:text="是否为管理员"
+        android:textColor="#232323"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:text="保存"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_selector"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
