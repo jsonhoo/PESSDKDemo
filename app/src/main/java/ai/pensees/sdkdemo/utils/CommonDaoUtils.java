@@ -6,6 +6,8 @@ import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
+import ai.pensees.sdkdemo.gen.DaoSession;
+
 public class CommonDaoUtils<T> {
 
     private DaoSession mDaoSession;

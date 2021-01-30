@@ -69,8 +69,7 @@
     <com.otaliastudios.cameraview.CameraView
         android:id="@+id/camera_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true" />
+        android:layout_height="680dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"

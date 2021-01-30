@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.het.tencentliteavrtc.model.TRTCCalling;
 import com.het.tencentliteavrtc.model.TRTCCallingDelegate;
@@ -31,12 +32,18 @@ import com.otaliastudios.cameraview.size.Size;
 import org.jetbrains.annotations.NotNull;
 
 import ai.pensees.commons.ImageUtils;
+import ai.pensees.fcompare.FCResult;
+import ai.pensees.fcompare.PESFCompareException;
 import ai.pensees.sdk.common.SDKConstant;
+import ai.pensees.sdk.common.data.FaceInfo;
 import ai.pensees.sdk.facedetect.PESFaceDetect;
+
 import java.util.List;
 import java.util.Map;
 
+import ai.pensees.sdk.facefeature.PESFeature;
 import ai.pensees.sdkdemo.layout.DialLayout;
+import ai.pensees.sdkdemo.utils.DaoManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,9 +64,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private CameraView mCameraView;
 
 
-
-
     private TRTCCalling mTRTCCalling;
+    private String mAction;
+    private static final String ACTION_COMPARE = "compare";
+    private static final String ACTION_EXTRACT = "EXTRACT_FEATURE";
 
     private TRTCCallingDelegate mTRTCCallingDelegate = new TRTCCallingDelegate() {
         // <editor-fold  desc="视频监听代码">
@@ -173,8 +181,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 //登录成功
                 mTRTCCalling = TRTCCallingImpl.sharedInstance(HomeActivity.this);
                 mTRTCCalling.addDelegate(mTRTCCallingDelegate);
-                int    appid   = GenerateTestUserSig.SDKAPPID;
-                String userId  = ProfileManager.getInstance().getUserModel().userId;
+                int appid = GenerateTestUserSig.SDKAPPID;
+                String userId = ProfileManager.getInstance().getUserModel().userId;
                 String userSig = ProfileManager.getInstance().getUserModel().userSig;
                 mTRTCCalling.login(appid, userId, userSig, new TRTCCalling.ActionCallBack() {
                     @Override
@@ -209,11 +217,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PESFaceDetect.init(this);
+        FaceHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_home);
         initView();
@@ -221,6 +228,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         mCameraView = findViewById(R.id.camera_view);
+        mCameraView.setPlaySounds(false);
         mCameraView.setLifecycleOwner(this);
         mCameraView.setPictureFormat(PictureFormat.JPEG);
         mCameraView.setFrameProcessingFormat(ImageFormat.NV21);
@@ -246,8 +254,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 result.toBitmap(bitmap -> {
                     Size size = result.getSize();
                     byte[] toRGB = ImageUtils.bitmapToRGB(bitmap);
-                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                    Log.d(TAG, "Faces Count=" + count);
+//                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
+                    final List<FaceInfo> faceInfos = PESFaceDetect.detect(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
+                    Log.d(TAG, "Faces Count=" + CollectionUtils.size(faceInfos));
+                    if (CollectionUtils.size(faceInfos) == 0) {
+                        return;
+                    }
+                    final byte[] featureBytes = PESFeature.extract(toRGB, faceInfos.get(0).landmark, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
+                    if (ACTION_EXTRACT.equals(mAction)) {
+                        ai.pensees.sdkdemo.model.UserModel userModel = createUserModel();
+                        userModel.setFeature(featureBytes);
+                        Log.d(TAG, "人脸数据录入成功--");
+                        DaoManager.getInstance().getDaoSession().getUserModelDao().insertOrReplace(userModel);
+                        try {
+                            FaceHelper.INSTANCE.getPesfCompare().reloadDB();
+                        } catch (PESFCompareException e) {
+                            Log.e(TAG, "", e);
+                        }
+                    } else if (ACTION_COMPARE.equals(mAction)) {
+                        final List<FCResult> fcResults = FaceHelper.INSTANCE.getPesfCompare().compare(featureBytes);
+                        for (FCResult fcResult : fcResults) {
+                            Log.d(TAG, "comare result :featureId=" + fcResult.featureId + "|score" + fcResult.score);
+                        }
+                    }
                 });
             }
 
@@ -366,8 +395,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         switch (v.getId()) {
             case R.id.password_open:
-                mCallType = TYPE_PASSWORD_OPEN;
-                mPasswordLayout.setVisibility(View.VISIBLE);
+                extractFeature();
+//                mCallType = TYPE_PASSWORD_OPEN;
+//                mPasswordLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.phone_call:
                 mCallType = TYPE_PHONE_CALL;
@@ -383,8 +413,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 initTRTCCallingData();
                 break;
             case R.id.settings:
-                //TODO StartSettings
-                mCameraView.takePicture();
+                compare();
                 break;
         }
     }
@@ -409,5 +438,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    private void extractFeature() {
+        mAction = ACTION_EXTRACT;
+        mCameraView.takePicture();
+    }
+
+    private void compare() {
+        mAction = ACTION_COMPARE;
+        mCameraView.takePicture();
+    }
+
+    private static int sUserNo = 0;
+
+    private ai.pensees.sdkdemo.model.UserModel createUserModel() {
+        ai.pensees.sdkdemo.model.UserModel userModel = new ai.pensees.sdkdemo.model.UserModel();
+        userModel.setCarNo("1111111");
+        userModel.setCreateTime(System.currentTimeMillis());
+        userModel.setUpdateTime(System.currentTimeMillis());
+        userModel.setUserNo("" + sUserNo);
+        userModel.setUserName("test1");
+        userModel.setFaceUrl("faceUrl");
+        sUserNo++;
+        return userModel;
     }
 }

@@ -1,12 +1,10 @@
 package ai.pensees.sdkdemo;
 
 import android.Manifest;
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
@@ -34,23 +32,30 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void accept(Boolean granted) throws Throwable {
                             if (granted) { // Always true pre-M
-                                loadAnimation();
+                                onPermissionRequest();
                             } else {
                                 finish();
                             }
                         }
                     });
         } else {
-            loadAnimation();
+            onPermissionRequest();
         }
     }
 
-    private void loadAnimation() {
-        LinearLayout splash = (LinearLayout) findViewById(R.id.splash);
-        splash.postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }, 1000);
+    private void onPermissionRequest() {
+        FaceHelper.INSTANCE.setMCallback(new FaceHelper.Callback() {
+            @Override
+            public void onInitSuccess() {
+                gotoHomeActivity();
+            }
+        });
+        FaceHelper.INSTANCE.init(this);
+    }
+
+    private void gotoHomeActivity() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
