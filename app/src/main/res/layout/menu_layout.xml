@@ -17,7 +17,10 @@
             android:layout_marginRight="56dp"
             android:drawableTop="@mipmap/ic_password_open"
             android:drawablePadding="6dp"
+            android:foreground="@drawable/home_btn_pressed_foreground"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="密码开门"
             android:textSize="16sp" />
 
@@ -27,7 +30,10 @@
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/ic_phone_call"
             android:drawablePadding="6dp"
+            android:foreground="@drawable/home_btn_pressed_foreground"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="手机呼叫"
             android:textSize="16sp" />
 
@@ -38,7 +44,10 @@
             android:layout_marginLeft="56dp"
             android:drawableTop="@mipmap/ic_house_call"
             android:drawablePadding="6dp"
+            android:foreground="@drawable/home_btn_pressed_foreground"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="房号呼叫"
             android:textSize="16sp" />
     </TableRow>
@@ -52,7 +61,10 @@
             android:layout_marginRight="56dp"
             android:drawableTop="@mipmap/ic_property_call"
             android:drawablePadding="6dp"
+            android:foreground="@drawable/home_btn_pressed_foreground"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="物业呼叫"
             android:textSize="16sp" />
 
@@ -62,7 +74,10 @@
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/ic_settings"
             android:drawablePadding="6dp"
+            android:foreground="@drawable/home_btn_pressed_foreground"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="配置"
             android:textSize="16sp" />
 
