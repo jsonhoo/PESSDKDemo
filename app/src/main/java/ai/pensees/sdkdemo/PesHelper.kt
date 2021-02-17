@@ -19,27 +19,33 @@ object PesHelper {
     const val TAG = "liu.js"
     var pesfCompare: PESFCompare? = null
     var mCallback: Callback? = null
+    private var mHasInit = false
 
+    @Synchronized
     public fun init(context: Context) {
+        if (mHasInit) {
+            return
+        }
         Thread {
             initImpl(context)
             mCallback?.onInitSuccess()
+            mHasInit = true
         }.start()
     }
 
     private fun initImpl(context: Context) {
         var ret = PESFaceDetect.init(context)
-        Log.e(TAG, "ret detect = $ret")
+        Log.d(TAG, "ret detect = $ret")
         ret = PESQuality.init(context)
-        Log.e(TAG, "ret quality = $ret")
+        Log.d(TAG, "ret quality = $ret")
         ret = PESMask.init(context)
-        Log.e(TAG, "ret2 mask = $ret")
+        Log.d(TAG, "ret2 mask = $ret")
         ret = PESFeature.init(context, PESFeature.Version.Mask)
-        Log.e(TAG, "ret3 feature = $ret")
+        Log.d(TAG, "ret3 feature = $ret")
         initPESCompare()
     }
 
-    fun initPESCompare() {
+    private fun initPESCompare() {
         releasePESCompare()
         pesfCompare = PESFCompare()
         pesfCompare!!.threshold = 0.65f
@@ -66,6 +72,7 @@ object PesHelper {
     }
 
     fun releaseSDK() {
+        mHasInit = false
         PESFaceDetect.release()
         PESFeature.release()
         PESMask.release()

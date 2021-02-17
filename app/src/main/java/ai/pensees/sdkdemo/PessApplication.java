@@ -19,9 +19,7 @@ public class PessApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
-
         instance = this;
         DaoManager.getInstance().init(this);
         TXLiveBase.setConsoleEnabled(true);
@@ -33,6 +31,12 @@ public class PessApplication extends MultiDexApplication {
             builder.detectFileUriExposure();
         }
         closeAndroidPDialog();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        PesHelper.INSTANCE.releaseSDK();
     }
 
     public static PessApplication getApplication() {

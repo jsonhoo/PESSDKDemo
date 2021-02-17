@@ -3,13 +3,11 @@ package ai.pensees.sdkdemo;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ImageFormat;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.het.tencentliteavrtc.model.TRTCCalling;
 import com.het.tencentliteavrtc.model.TRTCCallingDelegate;
@@ -20,31 +18,16 @@ import com.het.tencentliteavrtc.ui.videocall.TRTCVideoCallActivity;
 import com.het.tencentliteavrtc.usr.GenerateTestUserSig;
 import com.het.tencentliteavrtc.usr.ProfileManager;
 import com.het.tencentliteavrtc.usr.UserModel;
-import com.otaliastudios.cameraview.CameraException;
-import com.otaliastudios.cameraview.CameraListener;
-import com.otaliastudios.cameraview.CameraOptions;
 import com.otaliastudios.cameraview.CameraView;
-import com.otaliastudios.cameraview.PictureResult;
-import com.otaliastudios.cameraview.VideoResult;
 import com.otaliastudios.cameraview.controls.PictureFormat;
-import com.otaliastudios.cameraview.size.Size;
 
 import org.jetbrains.annotations.NotNull;
-
-import ai.pensees.commons.ImageUtils;
-import ai.pensees.fcompare.FCResult;
-import ai.pensees.fcompare.PESFCompareException;
-import ai.pensees.sdk.common.SDKConstant;
-import ai.pensees.sdk.common.data.FaceInfo;
-import ai.pensees.sdk.facedetect.PESFaceDetect;
 
 import java.util.List;
 import java.util.Map;
 
-import ai.pensees.sdk.facefeature.PESFeature;
+import ai.pensees.sdkdemo.face.FaceHelper;
 import ai.pensees.sdkdemo.layout.DialLayout;
-import ai.pensees.sdkdemo.utils.DaoManager;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,11 +46,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private int mCallType = TYPE_NONE;
     private CameraView mCameraView;
 
-
     private TRTCCalling mTRTCCalling;
-    private String mAction;
-    private static final String ACTION_COMPARE = "compare";
-    private static final String ACTION_EXTRACT = "EXTRACT_FEATURE";
 
     private TRTCCallingDelegate mTRTCCallingDelegate = new TRTCCallingDelegate() {
         // <editor-fold  desc="视频监听代码">
@@ -215,11 +194,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (mTRTCCalling != null) {
             mTRTCCalling.removeDelegate(mTRTCCallingDelegate);
         }
+        PesHelper.INSTANCE.releaseSDK();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "HomeActivity onCreate--");
         PesHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_home);
@@ -232,94 +213,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mCameraView.setLifecycleOwner(this);
         mCameraView.setPictureFormat(PictureFormat.JPEG);
         mCameraView.setFrameProcessingFormat(ImageFormat.NV21);
-        mCameraView.addCameraListener(new CameraListener() {
-            @Override
-            public void onCameraOpened(@NonNull CameraOptions options) {
-                super.onCameraOpened(options);
-            }
+        FaceHelper.INSTANCE.init(mCameraView);
 
-            @Override
-            public void onCameraClosed() {
-                super.onCameraClosed();
-            }
-
-            @Override
-            public void onCameraError(@NonNull CameraException exception) {
-                super.onCameraError(exception);
-            }
-
-            @Override
-            public void onPictureTaken(@NonNull PictureResult result) {
-                super.onPictureTaken(result);
-                result.toBitmap(bitmap -> {
-                    Size size = result.getSize();
-                    byte[] toRGB = ImageUtils.bitmapToRGB(bitmap);
-//                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                    final List<FaceInfo> faceInfos = PESFaceDetect.detect(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                    Log.d(TAG, "Faces Count=" + CollectionUtils.size(faceInfos));
-                    if (CollectionUtils.size(faceInfos) == 0) {
-                        return;
-                    }
-                    final byte[] featureBytes = PESFeature.extract(toRGB, faceInfos.get(0).landmark, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                    if (ACTION_EXTRACT.equals(mAction)) {
-                        ai.pensees.sdkdemo.model.UserModel userModel = createUserModel();
-                        userModel.setFeature(featureBytes);
-                        Log.d(TAG, "人脸数据录入成功--");
-                        DaoManager.getInstance().getDaoSession().getUserModelDao().insertOrReplace(userModel);
-                        try {
-                            PesHelper.INSTANCE.getPesfCompare().reloadDB();
-                        } catch (PESFCompareException e) {
-                            Log.e(TAG, "", e);
-                        }
-                    } else if (ACTION_COMPARE.equals(mAction)) {
-                        final List<FCResult> fcResults = PesHelper.INSTANCE.getPesfCompare().compare(featureBytes);
-                        for (FCResult fcResult : fcResults) {
-                            Log.d(TAG, "comare result :featureId=" + fcResult.featureId + "|score" + fcResult.score);
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onVideoTaken(@NonNull VideoResult result) {
-                super.onVideoTaken(result);
-            }
-
-            @Override
-            public void onOrientationChanged(int orientation) {
-                super.onOrientationChanged(orientation);
-            }
-
-            @Override
-            public void onAutoFocusStart(@NonNull PointF point) {
-                super.onAutoFocusStart(point);
-            }
-
-            @Override
-            public void onAutoFocusEnd(boolean successful, @NonNull PointF point) {
-                super.onAutoFocusEnd(successful, point);
-            }
-
-            @Override
-            public void onZoomChanged(float newValue, @NonNull float[] bounds, @Nullable PointF[] fingers) {
-                super.onZoomChanged(newValue, bounds, fingers);
-            }
-
-            @Override
-            public void onExposureCorrectionChanged(float newValue, @NonNull float[] bounds, @Nullable PointF[] fingers) {
-                super.onExposureCorrectionChanged(newValue, bounds, fingers);
-            }
-
-            @Override
-            public void onVideoRecordingStart() {
-                super.onVideoRecordingStart();
-            }
-
-            @Override
-            public void onVideoRecordingEnd() {
-                super.onVideoRecordingEnd();
-            }
-        });
         mPasswordLayout = findViewById(R.id.dial_password_open);
         mPasswordLayout.setInputHint("输入住户密码，按“确认”键开门");
         mPasswordLayout.setMListener(new DialLayout.DialListener() {
@@ -395,7 +290,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         switch (v.getId()) {
             case R.id.password_open:
-                extractFeature();
+                FaceHelper.INSTANCE.extractFeature();
 //                mCallType = TYPE_PASSWORD_OPEN;
 //                mPasswordLayout.setVisibility(View.VISIBLE);
                 break;
@@ -413,7 +308,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 initTRTCCallingData();
                 break;
             case R.id.settings:
-                compare();
+                FaceHelper.INSTANCE.compare();
                 break;
         }
     }
@@ -428,39 +323,5 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    private void extractFeature() {
-        mAction = ACTION_EXTRACT;
-        mCameraView.takePicture();
-    }
-
-    private void compare() {
-        mAction = ACTION_COMPARE;
-        mCameraView.takePicture();
-    }
-
-    private static int sUserNo = 0;
-
-    private ai.pensees.sdkdemo.model.UserModel createUserModel() {
-        ai.pensees.sdkdemo.model.UserModel userModel = new ai.pensees.sdkdemo.model.UserModel();
-        userModel.setCarNo("1111111");
-        userModel.setCreateTime(System.currentTimeMillis());
-        userModel.setUpdateTime(System.currentTimeMillis());
-        userModel.setUserNo("" + sUserNo);
-        userModel.setUserName("test1");
-        userModel.setFaceUrl("faceUrl");
-        sUserNo++;
-        return userModel;
     }
 }
