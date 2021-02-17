@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
@@ -44,13 +43,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void onPermissionRequest() {
-        FaceHelper.INSTANCE.setMCallback(new FaceHelper.Callback() {
+        PesHelper.INSTANCE.setMCallback(new PesHelper.Callback() {
             @Override
             public void onInitSuccess() {
                 gotoHomeActivity();
             }
         });
-        FaceHelper.INSTANCE.init(this);
+        PesHelper.INSTANCE.init(this);
     }
 
     private void gotoHomeActivity() {

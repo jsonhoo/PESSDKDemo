@@ -220,7 +220,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FaceHelper.INSTANCE.init(this);
+        PesHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_home);
         initView();
@@ -267,12 +267,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d(TAG, "人脸数据录入成功--");
                         DaoManager.getInstance().getDaoSession().getUserModelDao().insertOrReplace(userModel);
                         try {
-                            FaceHelper.INSTANCE.getPesfCompare().reloadDB();
+                            PesHelper.INSTANCE.getPesfCompare().reloadDB();
                         } catch (PESFCompareException e) {
                             Log.e(TAG, "", e);
                         }
                     } else if (ACTION_COMPARE.equals(mAction)) {
-                        final List<FCResult> fcResults = FaceHelper.INSTANCE.getPesfCompare().compare(featureBytes);
+                        final List<FCResult> fcResults = PesHelper.INSTANCE.getPesfCompare().compare(featureBytes);
                         for (FCResult fcResult : fcResults) {
                             Log.d(TAG, "comare result :featureId=" + fcResult.featureId + "|score" + fcResult.score);
                         }

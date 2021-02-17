@@ -15,7 +15,7 @@ import android.util.Log
  * @author liujiansheng
  * @since 2021/1/30
  */
-object FaceHelper {
+object PesHelper {
     const val TAG = "liu.js"
     var pesfCompare: PESFCompare? = null
     var mCallback: Callback? = null
