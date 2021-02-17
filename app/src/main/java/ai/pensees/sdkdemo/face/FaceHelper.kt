@@ -6,13 +6,13 @@ import ai.pensees.sdk.common.SDKConstant
 import ai.pensees.sdk.facedetect.PESFaceDetect
 import ai.pensees.sdk.facefeature.PESFeature
 import ai.pensees.sdkdemo.HomeActivity
+import ai.pensees.sdkdemo.PesHelper.TAG
 import ai.pensees.sdkdemo.PesHelper.pesfCompare
 import ai.pensees.sdkdemo.model.UserModel
 import ai.pensees.sdkdemo.utils.DaoManager
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.Looper
 import android.util.Log
 import com.blankj.utilcode.util.CollectionUtils
 import com.otaliastudios.cameraview.BitmapCallback
@@ -33,16 +33,23 @@ object FaceHelper {
     private const val ACTION_COMPARE = "compare"
     private const val ACTION_EXTRACT = "EXTRACT_FEATURE"
     private var mAction: String = ACTION_COMPARE
-    private var mIsComparing = false
     private var mTimer: Timer = Timer()
+    private var mDoorIsOpen = false
+    private var mIsInit = false
 
     fun init(cameraView: CameraView) {
+        if (mIsInit) {
+            return
+        }
+        mIsInit = true
         mCameraView = cameraView
         mCameraView!!.addCameraListener(mCameraListener)
         mTimer.schedule(object : TimerTask() {
             override fun run() {
-                Log.d(HomeActivity.TAG, "compare timer start--mIsComparing=$mIsComparing")
-                compare()
+                Log.d(HomeActivity.TAG, "compare timer start--mDoorIsOpen=$mDoorIsOpen")
+                if (!mDoorIsOpen) {
+                    takePictureAndCompare()
+                }
             }
 
         }, 3000, 2000)
@@ -59,8 +66,7 @@ object FaceHelper {
         mHandler?.post(mTakePictureRunnable)
     }
 
-    fun compare() {
-        mIsComparing = true
+    fun takePictureAndCompare() {
         mAction = ACTION_COMPARE
         mHandler?.removeCallbacks(mTakePictureRunnable)
         mHandler?.post(mTakePictureRunnable)
@@ -111,7 +117,6 @@ object FaceHelper {
                         Log.e(HomeActivity.TAG, "", e)
                     }
                     mAction = ACTION_COMPARE
-                    mIsComparing = false
                 })
             } else {
                 mHandler?.removeCallbacks(mCompareRunnable)
@@ -137,7 +142,6 @@ object FaceHelper {
                 Log.d(HomeActivity.TAG, "onPictureTaken-detect----")
                 Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfoList))
                 if (CollectionUtils.size(faceInfoList) == 0) {
-                    mIsComparing = false
                     return@toBitmap
                 }
                 val featureBytes = PESFeature.extract(toRGB, faceInfoList[0].landmark, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
@@ -146,10 +150,24 @@ object FaceHelper {
                 if (!CollectionUtils.isEmpty(fcResults)) {
                     val hasCompare = (fcResults[0].score > 0.7f)
                     Log.d(HomeActivity.TAG, "onPictureTaken-compare--hasCompare=" + hasCompare + "--score=" + fcResults[0].score)
+                    if (hasCompare) {
+                        openDoor()
+                    }
                 } else {
                     Log.d(HomeActivity.TAG, "onPictureTaken-compare--hasCompare=" + false)
                 }
             }
         }
+    }
+
+    private fun openDoor() {
+        if (mDoorIsOpen) {
+            return
+        }
+        Log.d(TAG, "open Door")
+        mDoorIsOpen = true
+        mHandler?.postDelayed({
+            mDoorIsOpen = false
+        }, 10000)
     }
 }

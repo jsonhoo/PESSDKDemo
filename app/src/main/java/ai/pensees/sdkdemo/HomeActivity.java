@@ -308,7 +308,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 initTRTCCallingData();
                 break;
             case R.id.settings:
-                FaceHelper.INSTANCE.compare();
+                FaceHelper.INSTANCE.takePictureAndCompare();
                 break;
         }
     }
