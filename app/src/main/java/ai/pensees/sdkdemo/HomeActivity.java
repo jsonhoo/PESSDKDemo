@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import ai.pensees.sdkdemo.face.FaceHelper;
+import ai.pensees.sdkdemo.face.IflytekHelper;
 import ai.pensees.sdkdemo.layout.DialLayout;
 import ai.pensees.sdkdemo.utils.DensityUtils;
 import androidx.annotation.Nullable;
@@ -202,6 +203,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             mTRTCCalling.removeDelegate(mTRTCCallingDelegate);
         }
         PesHelper.INSTANCE.releaseSDK();
+        IflytekHelper.INSTANCE.releaseSDK();
     }
 
     @Override
@@ -209,6 +211,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Log.d(TAG, "HomeActivity onCreate--");
         PesHelper.INSTANCE.init(this);
+        IflytekHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_home);
         initView();

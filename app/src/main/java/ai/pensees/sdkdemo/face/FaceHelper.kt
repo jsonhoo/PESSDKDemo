@@ -8,6 +8,7 @@ import ai.pensees.sdk.facefeature.PESFeature
 import ai.pensees.sdkdemo.HomeActivity
 import ai.pensees.sdkdemo.PesHelper.TAG
 import ai.pensees.sdkdemo.PesHelper.pesfCompare
+import ai.pensees.sdkdemo.PessApplication
 import ai.pensees.sdkdemo.model.UserModel
 import ai.pensees.sdkdemo.utils.DaoManager
 import android.graphics.Bitmap
@@ -165,9 +166,11 @@ object FaceHelper {
             return
         }
         Log.d(TAG, "open Door")
+        IflytekHelper.speaking(PessApplication.getApplication(), "识别成功，已开门")
         mDoorIsOpen = true
         mHandler?.postDelayed({
             mDoorIsOpen = false
+            IflytekHelper.speaking(PessApplication.getApplication(), "已关门")
         }, 10000)
     }
 }

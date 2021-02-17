@@ -3,6 +3,8 @@ package ai.pensees.sdkdemo;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.tencent.rtmp.TXLiveBase;
 
 import java.lang.reflect.Constructor;
@@ -31,6 +33,7 @@ public class PessApplication extends MultiDexApplication {
             builder.detectFileUriExposure();
         }
         closeAndroidPDialog();
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=602cfe5a");
     }
 
     @Override
