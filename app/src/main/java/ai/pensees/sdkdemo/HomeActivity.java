@@ -1,5 +1,8 @@
 package ai.pensees.sdkdemo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ImageFormat;
@@ -7,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.het.tencentliteavrtc.model.TRTCCalling;
@@ -28,6 +32,7 @@ import java.util.Map;
 
 import ai.pensees.sdkdemo.face.FaceHelper;
 import ai.pensees.sdkdemo.layout.DialLayout;
+import ai.pensees.sdkdemo.utils.DensityUtils;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +50,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private DialLayout mPropertyLayout;//物业
     private int mCallType = TYPE_NONE;
     private CameraView mCameraView;
+    private View mMenuLayout;
+    private ImageView mArrowView;
 
     private TRTCCalling mTRTCCalling;
 
@@ -215,6 +222,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mCameraView.setFrameProcessingFormat(ImageFormat.NV21);
         FaceHelper.INSTANCE.init(mCameraView);
 
+        mMenuLayout = findViewById(R.id.menu_layout);
+        mMenuLayout.setTranslationY(getDownTranslationY());
+        mArrowView = findViewById(R.id.arrow);
+        mArrowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMenuLayout.getTranslationY() == 0) {//展示状态
+                    slideDown();
+                } else {
+                    slideUp();
+                }
+            }
+        });
+
         mPasswordLayout = findViewById(R.id.dial_password_open);
         mPasswordLayout.setInputHint("输入住户密码，按“确认”键开门");
         mPasswordLayout.setMListener(new DialLayout.DialListener() {
@@ -282,6 +303,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.settings).setOnClickListener(this);
     }
 
+    private int getDownTranslationY() {
+        return DensityUtils.dip2px(this, 252);
+    }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
@@ -323,5 +348,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         startActivity(intent);
+    }
+
+    private void slideUp() {
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mMenuLayout, View.TRANSLATION_Y, 0);
+        objectAnimator.setDuration(500);
+        objectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mMenuLayout.setTranslationY(0);
+                mArrowView.setImageResource(R.mipmap.arrow_down);
+            }
+        });
+        objectAnimator.start();
+    }
+
+    private void slideDown() {
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mMenuLayout, View.TRANSLATION_Y, getDownTranslationY());
+        objectAnimator.setDuration(500);
+        objectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mMenuLayout.setTranslationY(getDownTranslationY());
+                mArrowView.setImageResource(R.mipmap.arrow_up);
+            }
+        });
+        objectAnimator.start();
     }
 }
