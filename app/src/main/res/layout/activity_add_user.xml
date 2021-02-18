@@ -12,6 +12,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:id="@+id/img_avatar"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/gtw2"
@@ -19,7 +20,7 @@
         android:layout_height="100dp"/>
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
@@ -27,23 +28,23 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:id="@+id/tv_no"
             android:textSize="18sp"
             android:textColor="#232323"
-            android:text="用户编号:"
+            android:text="编号: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <ai.pensees.sdkdemo.widget.ClearEditText
+            android:background="@drawable/edit_bg"
             android:layout_toRightOf="@+id/tv_no"
             android:id="@+id/input_user_no"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="13dp"
             android:paddingLeft="7dp"
             android:textCursorDrawable="@null"
-            android:layout_gravity="center_horizontal"
             android:textSize="16sp"
             android:hint="请输入用户编号"
             android:textColor="#232323"/>
@@ -62,7 +63,8 @@
             android:id="@+id/tv_name"
             android:textSize="18sp"
             android:textColor="#232323"
-            android:text="姓名:"
+            android:text="姓名: "
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -71,10 +73,10 @@
             android:id="@+id/input_user_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="13dp"
             android:paddingLeft="7dp"
             android:textCursorDrawable="@null"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edit_bg"
+            android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:hint="请输入用户姓名"
             android:textColor="#232323"/>
@@ -94,22 +96,22 @@
             android:id="@+id/tv_carNo"
             android:textSize="18sp"
             android:textColor="#232323"
-            android:text="卡号:"
+            android:text="卡号: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
 
         <ai.pensees.sdkdemo.widget.ClearEditText
+            android:background="@drawable/edit_bg"
             android:layout_toRightOf="@+id/tv_carNo"
             android:id="@+id/input_user_carNo"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="13dp"
             android:paddingLeft="7dp"
             android:textCursorDrawable="@null"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:hint="请输入用户姓名"
+            android:hint="请输入用户卡号"
             android:textColor="#232323"/>
     </RelativeLayout>
 
@@ -126,7 +128,7 @@
             android:id="@+id/tv_phone"
             android:textSize="18sp"
             android:textColor="#232323"
-            android:text="电话:"
+            android:text="电话: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -136,12 +138,12 @@
             android:id="@+id/input_user_phone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="13dp"
             android:paddingLeft="7dp"
             android:textCursorDrawable="@null"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edit_bg"
+            android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:hint="请输入用户姓名"
+            android:hint="请输入用户电话"
             android:textColor="#232323"/>
     </RelativeLayout>
 
@@ -158,7 +160,7 @@
             android:id="@+id/tv_user_address"
             android:textSize="18sp"
             android:textColor="#232323"
-            android:text="住址:"
+            android:text="住址: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -167,12 +169,12 @@
             android:id="@+id/input_user_address"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="13dp"
+            android:background="@drawable/edit_bg"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="7dp"
             android:textCursorDrawable="@null"
-            android:layout_gravity="center_horizontal"
             android:textSize="16sp"
-            android:hint="请输入用户姓名"
+            android:hint="请输入用户住址"
             android:textColor="#232323"/>
 
     </RelativeLayout>

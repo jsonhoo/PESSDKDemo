@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import ai.pensees.sdkdemo.widget.ItemView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import ai.pensees.sdkdemo.widget.ItemView;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,23 +42,23 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = null;
         switch (v.getId()){
             case R.id.itemview_user:
-                intent = new Intent(SettingActivity.this,UserManageActivity.class);
+                intent = new Intent(SettingActivity.this, UserManageActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_service:
-                intent = new Intent(SettingActivity.this,ServerConfigActivity.class);
+                intent = new Intent(SettingActivity.this, ServerConfigActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_device_position:
-                intent = new Intent(SettingActivity.this,DevicePositionConfigActivity.class);
+                intent = new Intent(SettingActivity.this, DevicePositionConfigActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_face_record:
-                intent = new Intent(SettingActivity.this,FaceRcordActivity.class);
+                intent = new Intent(SettingActivity.this, FaceRcordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_card_record:
-                intent = new Intent(SettingActivity.this,CardRcordActivity.class);
+                intent = new Intent(SettingActivity.this, CardRcordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_config_network:

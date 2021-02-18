@@ -1,5 +1,6 @@
 package ai.pensees.sdkdemo;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
 
@@ -11,6 +12,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import ai.pensees.sdkdemo.gen.DaoMaster;
+import ai.pensees.sdkdemo.gen.DaoSession;
 import ai.pensees.sdkdemo.utils.DaoManager;
 import androidx.multidex.MultiDexApplication;
 
@@ -18,6 +21,8 @@ public class PessApplication extends MultiDexApplication {
     private static String TAG = "PessApplication";
 
     private static PessApplication instance;
+    private DaoSession daoSession;
+
 
     @Override
     public void onCreate() {
@@ -32,6 +37,7 @@ public class PessApplication extends MultiDexApplication {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             builder.detectFileUriExposure();
         }
+        initDreenDao();
         closeAndroidPDialog();
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=602cfe5a");
     }
@@ -44,6 +50,17 @@ public class PessApplication extends MultiDexApplication {
 
     public static PessApplication getApplication() {
         return instance;
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    private void initDreenDao() {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this, "/sdcard/localthface.db");
+        SQLiteDatabase db = devOpenHelper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
     }
 
     private void closeAndroidPDialog() {

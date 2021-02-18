@@ -1,110 +1,120 @@
 package ai.pensees.sdkdemo.model;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Unique;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Unique;
+
+import java.io.Serializable;
+
 
 //用户信息
 @Entity
-public class UserModel {
+public class UserModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id(autoincrement = true)
     private long id;
     @Unique
     private String userNo;
-    @NotNull
     private String userName;
-    @NotNull
-    private byte[] feature;
-    @NotNull
+    @Unique
+    private String carNo;
+    private String userAddress;
+    private String userPhone;
+
+    private String featureId;
     private String faceUrl;
 
-    private long createTime;
+    private String createTime;
+    private String updateTime;
+    private boolean isAdmin;
 
-    private long updateTime;
-    //用户卡
-    private String carNo;
-
-    @Generated(hash = 470213102)
-    public UserModel(long id, String userNo, @NotNull String userName,
-            @NotNull byte[] feature, @NotNull String faceUrl, long createTime,
-            long updateTime, String carNo) {
+    @Generated(hash = 1525396677)
+    public UserModel(long id, String userNo, String userName, String carNo,
+            String userAddress, String userPhone, String featureId, String faceUrl,
+            String createTime, String updateTime, boolean isAdmin) {
         this.id = id;
         this.userNo = userNo;
         this.userName = userName;
-        this.feature = feature;
+        this.carNo = carNo;
+        this.userAddress = userAddress;
+        this.userPhone = userPhone;
+        this.featureId = featureId;
         this.faceUrl = faceUrl;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.carNo = carNo;
+        this.isAdmin = isAdmin;
     }
-
     @Generated(hash = 782181818)
     public UserModel() {
     }
-
     public long getId() {
-        return id;
+        return this.id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
-
     public String getUserNo() {
-        return userNo;
+        return this.userNo;
     }
-
     public void setUserNo(String userNo) {
         this.userNo = userNo;
     }
-
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public byte[] getFeature() {
-        return feature;
-    }
-
-    public void setFeature(byte[] feature) {
-        this.feature = feature;
-    }
-
-    public String getFaceUrl() {
-        return faceUrl;
-    }
-
-    public void setFaceUrl(String faceUrl) {
-        this.faceUrl = faceUrl;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public long getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(long updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public String getCarNo() {
-        return carNo;
+        return this.carNo;
     }
-
     public void setCarNo(String carNo) {
         this.carNo = carNo;
     }
+    public String getUserAddress() {
+        return this.userAddress;
+    }
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+    public String getUserPhone() {
+        return this.userPhone;
+    }
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+    public String getFeatureId() {
+        return this.featureId;
+    }
+    public void setFeatureId(String featureId) {
+        this.featureId = featureId;
+    }
+    public String getFaceUrl() {
+        return this.faceUrl;
+    }
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
+    }
+    public String getCreateTime() {
+        return this.createTime;
+    }
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+    public String getUpdateTime() {
+        return this.updateTime;
+    }
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+    public boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+
 }

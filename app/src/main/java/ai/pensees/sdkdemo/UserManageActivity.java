@@ -4,17 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import ai.pensees.sdkdemo.adapter.UserAdapter;
+import ai.pensees.sdkdemo.gen.DaoSession;
+import ai.pensees.sdkdemo.gen.UserModelDao;
 import ai.pensees.sdkdemo.model.UserModel;
 import ai.pensees.sdkdemo.widget.TitleView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class UserManageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,6 +28,7 @@ public class UserManageActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_manage);
         initView();
+        loadUser();
     }
 
     private void initView() {
@@ -37,12 +39,10 @@ public class UserManageActivity extends AppCompatActivity implements View.OnClic
         titleView.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(UserManageActivity.this,AddUserActivity.class);
+                Intent intent = new Intent(UserManageActivity.this, AddUserActivity.class);
                 startActivity(intent);
-
             }
-        },R.mipmap.add);
+        }, R.mipmap.add);
 
         recycler_view= findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -51,7 +51,18 @@ public class UserManageActivity extends AppCompatActivity implements View.OnClic
         userAdapter = new UserAdapter(crushList);
         recycler_view.setAdapter(userAdapter);
     }
+    private void loadUser(){
+        DaoSession daoSession = PessApplication.getApplication().getDaoSession();
+        UserModelDao userModelDao = daoSession.getUserModelDao();
 
+        List<UserModel> userModels = userModelDao.loadAll();
+        if(userModels == null || userModels.size() ==0){
+
+        }else{
+            crushList.addAll(userModels);
+            userAdapter.notifyDataSetChanged();
+        }
+    }
     @Override
     public void onClick(View v) {
 

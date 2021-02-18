@@ -3,51 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="ai.pensees.sdkdemo.MainActivity">
+    android:orientation="vertical">
 
-  <RelativeLayout
+  <ai.pensees.sdkdemo.widget.TitleView
+      android:id="@+id/title"
       android:layout_width="match_parent"
-      android:layout_height="60dp">
+      android:layout_height="wrap_content" />
 
-   <Button
-       android:id="@+id/btn_user_manage"
-       android:text="用户管理"
-       android:layout_width="match_parent"
-       android:layout_height="50dp"/>
-
-
-  </RelativeLayout>
-
-
-    <Button
-        android:id="@+id/btn_face_record_manage"
-        android:text="脸部识别管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/btn_password_door_manage"
-        android:text="密码开门管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/btn_rfid_manage"
-        android:text="刷卡管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/btn_temp_manage"
-        android:text="测温管理"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/btn_config"
-        android:text="服务配置"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 
 </LinearLayout>

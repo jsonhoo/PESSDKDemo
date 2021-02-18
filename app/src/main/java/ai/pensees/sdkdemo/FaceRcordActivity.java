@@ -1,22 +1,18 @@
 package ai.pensees.sdkdemo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ai.pensees.sdkdemo.adapter.FaceRcordAdapter;
-import ai.pensees.sdkdemo.adapter.UserAdapter;
 import ai.pensees.sdkdemo.model.FaceRecord;
-import ai.pensees.sdkdemo.model.UserModel;
 import ai.pensees.sdkdemo.widget.TitleView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FaceRcordActivity extends AppCompatActivity implements View.OnClickListener {
 

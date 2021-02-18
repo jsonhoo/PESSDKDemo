@@ -1,13 +1,17 @@
 package ai.pensees.sdkdemo.model;
 
-public class RfidRecord {
-    private int id;
-    //设备id
+import org.greenrobot.greendao.annotation.Entity;
+
+import java.io.Serializable;
+
+@Entity
+public class RfidRecord implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private long id;
     private String deviceId;
-    //卡id
     private String carNo;
-    //刷卡时间
     private String time;
-    //刷卡状态(1-成功，2-失败)
     private int state;
+
+
 }

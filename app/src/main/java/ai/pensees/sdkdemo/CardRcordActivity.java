@@ -3,17 +3,16 @@ package ai.pensees.sdkdemo;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import ai.pensees.sdkdemo.adapter.CardRcordAdapter;
 import ai.pensees.sdkdemo.model.RfidRecord;
 import ai.pensees.sdkdemo.widget.TitleView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CardRcordActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,7 +23,7 @@ public class CardRcordActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_manage);
+        setContentView(R.layout.activity_card_record);
         initView();
     }
 
