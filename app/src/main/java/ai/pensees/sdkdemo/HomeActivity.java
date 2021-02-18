@@ -225,17 +225,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mCameraView.setFrameProcessingFormat(ImageFormat.NV21);
         FaceHelper.INSTANCE.init(mCameraView);
 
+        findViewById(R.id.cover_view).setOnClickListener(v -> {
+            if (isMenuShow()) {
+                if (mCallType != TYPE_NONE) {
+                    hideAllPanelLayout();
+                } else {
+                    slideDown();
+                }
+            }
+        });
+
         mMenuLayout = findViewById(R.id.menu_layout);
         mMenuLayout.setTranslationY(getDownTranslationY());
         mArrowView = findViewById(R.id.arrow);
-        mArrowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMenuLayout.getTranslationY() == 0) {//展示状态
-                    slideDown();
-                } else {
-                    slideUp();
-                }
+        mArrowView.setOnClickListener(v -> {
+            if (isMenuShow()) {//展示状态
+                slideDown();
+            } else {
+                slideUp();
             }
         });
 
@@ -306,6 +313,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.settings).setOnClickListener(this);
     }
 
+    private boolean isMenuShow() {
+        return mMenuLayout.getTranslationY() == 0;
+    }
+
     private int getDownTranslationY() {
         return DensityUtils.dip2px(this, 252);
     }
@@ -339,6 +350,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 FaceHelper.INSTANCE.takePictureAndCompare();
                 break;
         }
+    }
+
+    private void hideAllPanelLayout() {
+        mPasswordLayout.close();
+        mPhoneCallLayout.close();
+        mHouseCallLayout.close();
+        mPropertyLayout.close();
     }
 
     /**

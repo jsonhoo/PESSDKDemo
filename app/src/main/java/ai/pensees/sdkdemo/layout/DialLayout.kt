@@ -116,11 +116,17 @@ class DialLayout : FrameLayout, View.OnClickListener {
                 mListener?.onConfirm(mInputTextBuilder.toString())
             }
             R.id.close_btn -> {
-                visibility = View.GONE
-                mListener?.onClose()
+                close()
             }
         }
         updateInputTextToView()
+    }
+
+    fun close() {
+        if (visibility == View.VISIBLE) {
+            visibility = GONE
+            mListener?.onClose()
+        }
     }
 
     fun setInputHint(hintText: String) {

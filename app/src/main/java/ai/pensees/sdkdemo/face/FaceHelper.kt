@@ -155,7 +155,7 @@ object FaceHelper {
                         openDoor()
                     }
                 } else {
-                    Log.d(HomeActivity.TAG, "onPictureTaken-compare--hasCompare=" + false)
+                    Log.d(HomeActivity.TAG, "onPictureTaken-compare--fcResults Empty")
                 }
             }
         }
