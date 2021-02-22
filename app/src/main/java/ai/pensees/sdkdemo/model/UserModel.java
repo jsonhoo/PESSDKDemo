@@ -3,6 +3,7 @@ package ai.pensees.sdkdemo.model;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.io.Serializable;
@@ -23,17 +24,21 @@ public class UserModel implements Serializable {
     private String userAddress;
     private String userPhone;
 
+    @NotNull
     private String featureId;
+    @NotNull
+    private byte[] feature;
     private String faceUrl;
 
-    private String createTime;
-    private String updateTime;
+    private long createTime;
+    private long updateTime;
     private boolean isAdmin;
 
-    @Generated(hash = 1525396677)
+    @Generated(hash = 1703904817)
     public UserModel(long id, String userNo, String userName, String carNo,
-            String userAddress, String userPhone, String featureId, String faceUrl,
-            String createTime, String updateTime, boolean isAdmin) {
+            String userAddress, String userPhone, @NotNull String featureId,
+            @NotNull byte[] feature, String faceUrl, long createTime,
+            long updateTime, boolean isAdmin) {
         this.id = id;
         this.userNo = userNo;
         this.userName = userName;
@@ -41,6 +46,7 @@ public class UserModel implements Serializable {
         this.userAddress = userAddress;
         this.userPhone = userPhone;
         this.featureId = featureId;
+        this.feature = feature;
         this.faceUrl = faceUrl;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -49,6 +55,7 @@ public class UserModel implements Serializable {
     @Generated(hash = 782181818)
     public UserModel() {
     }
+
     public long getId() {
         return this.id;
     }
@@ -97,18 +104,6 @@ public class UserModel implements Serializable {
     public void setFaceUrl(String faceUrl) {
         this.faceUrl = faceUrl;
     }
-    public String getCreateTime() {
-        return this.createTime;
-    }
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-    public String getUpdateTime() {
-        return this.updateTime;
-    }
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
     public boolean getIsAdmin() {
         return this.isAdmin;
     }
@@ -116,5 +111,27 @@ public class UserModel implements Serializable {
         this.isAdmin = isAdmin;
     }
 
+    public byte[] getFeature() {
+        return feature;
+    }
 
+    public void setFeature(byte[] feature) {
+        this.feature = feature;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
 }

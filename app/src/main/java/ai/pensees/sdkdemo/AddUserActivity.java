@@ -30,6 +30,7 @@ import ai.pensees.sdk.maskdetect.PESMask;
 import ai.pensees.sdkdemo.gen.DaoSession;
 import ai.pensees.sdkdemo.model.FaceFeature;
 import ai.pensees.sdkdemo.model.UserModel;
+import ai.pensees.sdkdemo.utils.DaoManager;
 import ai.pensees.sdkdemo.widget.ClearEditText;
 import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
@@ -159,11 +160,11 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         userModel.setUserPhone(userPhone);
         userModel.setUserAddress(userAddress);
 
-        userModel.setUpdateTime(new Date().toString());
-        userModel.setCreateTime(new Date().toString());
+        userModel.setUpdateTime(System.currentTimeMillis());
+        userModel.setCreateTime(System.currentTimeMillis());
         userModel.setIsAdmin(checked);
 
-        DaoSession daoSession = PessApplication.getApplication().getDaoSession();
+        DaoSession daoSession = DaoManager.getInstance().getDaoSession();
 
 //        long index1 = daoSession.getFaceFeatureDao().insert(faceFeature);
         long index2 = daoSession.getUserModelDao().insert(userModel);

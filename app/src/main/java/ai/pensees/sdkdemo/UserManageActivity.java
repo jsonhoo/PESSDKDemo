@@ -11,6 +11,7 @@ import ai.pensees.sdkdemo.adapter.UserAdapter;
 import ai.pensees.sdkdemo.gen.DaoSession;
 import ai.pensees.sdkdemo.gen.UserModelDao;
 import ai.pensees.sdkdemo.model.UserModel;
+import ai.pensees.sdkdemo.utils.DaoManager;
 import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +53,7 @@ public class UserManageActivity extends AppCompatActivity implements View.OnClic
         recycler_view.setAdapter(userAdapter);
     }
     private void loadUser(){
-        DaoSession daoSession = PessApplication.getApplication().getDaoSession();
+        DaoSession daoSession = DaoManager.getInstance().getDaoSession();
         UserModelDao userModelDao = daoSession.getUserModelDao();
 
         List<UserModel> userModels = userModelDao.loadAll();

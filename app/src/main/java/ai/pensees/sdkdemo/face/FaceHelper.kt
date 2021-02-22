@@ -53,7 +53,7 @@ object FaceHelper {
                 }
             }
 
-        }, 3000, 2000)
+        }, 3000, 1200)
     }
 
     init {
@@ -86,6 +86,7 @@ object FaceHelper {
         userModel.userNo = "" + sUserNo
         userModel.userName = "test1"
         userModel.faceUrl = "faceUrl"
+        userModel.featureId = "featureId"
         sUserNo++
         return userModel
     }
@@ -94,6 +95,9 @@ object FaceHelper {
         override fun onPictureTaken(result: PictureResult) {
             super.onPictureTaken(result)
             Log.d(HomeActivity.TAG, "onPictureTaken--Action=$mAction--")
+            if (!mIsInit) {
+                return
+            }
             if (ACTION_EXTRACT === mAction) {
                 result.toBitmap(BitmapCallback { bitmap ->
                     Log.d(HomeActivity.TAG, "onPictureTaken-toRGB--Action$mAction--")
@@ -134,29 +138,36 @@ object FaceHelper {
 
         override fun run() {
             mResult?.toBitmap { bitmap: Bitmap? ->
-                Log.d(HomeActivity.TAG, "onPictureTaken-toBitmap----")
-                val size: Size = mResult!!.size
-                val toRGB = ImageUtils.bitmapToRGB(bitmap)
-                Log.d(HomeActivity.TAG, "onPictureTaken-toRGB----")
-                //                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                val faceInfoList = PESFaceDetect.detect(toRGB, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
-                Log.d(HomeActivity.TAG, "onPictureTaken-detect----")
-                Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfoList))
-                if (CollectionUtils.size(faceInfoList) == 0) {
-                    return@toBitmap
-                }
-                val featureBytes = PESFeature.extract(toRGB, faceInfoList[0].landmark, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
-                Log.d(HomeActivity.TAG, "onPictureTaken-featureBytes----")
-                val fcResults = pesfCompare!!.compare(featureBytes)
-                if (!CollectionUtils.isEmpty(fcResults)) {
-                    val hasCompare = (fcResults[0].score > 0.7f)
-                    Log.d(HomeActivity.TAG, "onPictureTaken-compare--hasCompare=" + hasCompare + "--score=" + fcResults[0].score)
-                    if (hasCompare) {
-                        openDoor()
+                try {
+                    if (!mIsInit) {
+                        return@toBitmap
                     }
-                } else {
-                    Log.d(HomeActivity.TAG, "onPictureTaken-compare--fcResults Empty")
+                    Log.d(HomeActivity.TAG, "onPictureTaken-toBitmap----")
+                    val size: Size = mResult!!.size
+                    val toRGB = ImageUtils.bitmapToRGB(bitmap)
+                    Log.d(HomeActivity.TAG, "onPictureTaken-toRGB----")
+                    val faceInfoList = PESFaceDetect.detect(toRGB, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
+                    Log.d(HomeActivity.TAG, "onPictureTaken-detect----")
+                    Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfoList))
+                    if (CollectionUtils.size(faceInfoList) == 0) {
+                        return@toBitmap
+                    }
+                    val featureBytes = PESFeature.extract(toRGB, faceInfoList[0].landmark, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
+                    Log.d(HomeActivity.TAG, "onPictureTaken-featureBytes----")
+                    val fcResults = pesfCompare!!.compare(featureBytes)
+                    if (!CollectionUtils.isEmpty(fcResults)) {
+                        val hasCompare = (fcResults[0].score > 0.7f)
+                        Log.d(HomeActivity.TAG, "onPictureTaken-compare--hasCompare=" + hasCompare + "--score=" + fcResults[0].score)
+                        if (hasCompare) {
+                            openDoor()
+                        }
+                    } else {
+                        Log.d(HomeActivity.TAG, "onPictureTaken-compare--fcResults Empty")
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "", e)
                 }
+
             }
         }
     }
@@ -172,5 +183,13 @@ object FaceHelper {
             mDoorIsOpen = false
             IflytekHelper.speaking(PessApplication.getApplication(), "已关门")
         }, 10000)
+    }
+
+    fun release() {
+        mIsInit = false;
+        mTimer.cancel()
+        mHandler?.removeCallbacks(mCompareRunnable)
+        mHandler?.removeCallbacks(mTakePictureRunnable)
+        mCameraView?.removeCameraListener(mCameraListener)
     }
 }

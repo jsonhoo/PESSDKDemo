@@ -1,5 +1,6 @@
 package ai.pensees.sdkdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +41,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         Intent intent = null;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.itemview_user:
                 intent = new Intent(SettingActivity.this, UserManageActivity.class);
                 startActivity(intent);
@@ -67,13 +68,19 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void configWifi(){
+    private void configWifi() {
         Intent intent = new Intent();
-        if(android.os.Build.VERSION.SDK_INT >= 11){
-            intent .setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
-        }else{
-            intent .setClassName("com.android.settings" ,"com.android.settings.wifi.WifiSettings");
+        if (android.os.Build.VERSION.SDK_INT >= 11) {
+            intent.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+        } else {
+            intent.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
         }
-        startActivity( intent);
+        startActivity(intent);
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, SettingActivity.class);
+        context.startActivity(intent);
     }
 }

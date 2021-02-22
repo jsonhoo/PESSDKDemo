@@ -54,7 +54,7 @@ object PesHelper {
         try {
             val dbpath = DaoManager.getInstance().dbPath.absolutePath
             val tablename = UserModelDao.TABLENAME
-            val featureIdColName = UserModelDao.Properties.FaceUrl.columnName
+            val featureIdColName = UserModelDao.Properties.FeatureId.columnName
             val featureColName = UserModelDao.Properties.Feature.columnName
             Log.d(HomeActivity.TAG, "init compare--dbpath=$dbpath,tableName=$tablename,idColumn=$featureIdColName,featureColumn=$featureColName")
             pesfCompare?.init(dbpath, tablename, featureIdColName, featureColName)

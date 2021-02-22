@@ -202,6 +202,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (mTRTCCalling != null) {
             mTRTCCalling.removeDelegate(mTRTCCallingDelegate);
         }
+        FaceHelper.INSTANCE.release();
         PesHelper.INSTANCE.releaseSDK();
         IflytekHelper.INSTANCE.releaseSDK();
     }
@@ -347,7 +348,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 initTRTCCallingData();
                 break;
             case R.id.settings:
-                FaceHelper.INSTANCE.takePictureAndCompare();
+                SettingActivity.start(this);
                 break;
         }
     }

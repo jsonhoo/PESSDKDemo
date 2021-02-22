@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.StringUtils;
 
 import ai.pensees.sdkdemo.model.ServerConfig;
-import ai.pensees.sdkdemo.utils.ACache;
+//import ai.pensees.sdkdemo.utils.ACache;
 import ai.pensees.sdkdemo.widget.ClearEditText;
 import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
@@ -23,14 +23,14 @@ public class ServerConfigActivity extends AppCompatActivity implements View.OnCl
     private ClearEditText input_client_name;
     private ClearEditText input_client_key;
     private Button btn_save;
-    private ACache mCache;
+//    private ACache mCache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_config);
 
-        mCache = ACache.get(this);
+//        mCache = ACache.get(this);
 
         initView();
     }
@@ -54,7 +54,7 @@ public class ServerConfigActivity extends AppCompatActivity implements View.OnCl
 
     private void readCache(){
 
-        ServerConfig serverConfig = (ServerConfig)mCache.getAsObject("ServerConfig");
+        ServerConfig serverConfig = null;//(ServerConfig)mCache.getAsObject("ServerConfig");
         if(serverConfig == null){
             btn_save.setVisibility(View.VISIBLE);
 
@@ -132,6 +132,6 @@ public class ServerConfigActivity extends AppCompatActivity implements View.OnCl
         serverConfig.setClientName(clientName);
         serverConfig.setClientKey(clientKey);
 
-        mCache.put("ServerConfig",serverConfig);
+//        mCache.put("ServerConfig",serverConfig);
     }
 }
