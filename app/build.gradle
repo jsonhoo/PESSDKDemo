@@ -73,6 +73,7 @@ dependencies {
 //    implementation 'org.greenrobot:greendao-generator:3.2.0' // add library
 //    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
     implementation 'com.otaliastudios:cameraview:2.6.4'
 
     implementation project(':tencentliteavrtc')
@@ -80,6 +81,7 @@ dependencies {
     implementation rootProject.ext.imSdk
     //依赖一个utils类
     implementation 'com.blankj:utilcode:1.25.9'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
 
 

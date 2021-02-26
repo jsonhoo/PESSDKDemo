@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!--讯飞权限-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
@@ -63,6 +64,13 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".ServerConfigActivity" />
         <activity android:name=".UserManageActivity" />
+
+        <!-- Mqtt服务 -->
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service
+            android:name="ai.pensees.sdkdemo.msg.MQTTService"
+            android:enabled="true"
+            android:exported="true" />
 
     </application>
 

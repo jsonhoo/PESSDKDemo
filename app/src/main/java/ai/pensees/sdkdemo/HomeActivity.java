@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.ImageFormat;
 import android.net.Uri;
@@ -25,6 +26,9 @@ import com.het.tencentliteavrtc.usr.UserModel;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.controls.PictureFormat;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -33,11 +37,20 @@ import java.util.Map;
 import ai.pensees.sdkdemo.face.FaceHelper;
 import ai.pensees.sdkdemo.face.IflytekHelper;
 import ai.pensees.sdkdemo.layout.DialLayout;
+import ai.pensees.sdkdemo.model.ServerConfig;
+import ai.pensees.sdkdemo.msg.IGetMessageCallBack;
+import ai.pensees.sdkdemo.msg.MQTTService;
+import ai.pensees.sdkdemo.msg.MessageWrap;
+import ai.pensees.sdkdemo.msg.MqttConstant;
+import ai.pensees.sdkdemo.msg.MyServiceConnection;
+import ai.pensees.sdkdemo.utils.ACache;
 import ai.pensees.sdkdemo.utils.DensityUtils;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+import static ai.pensees.sdkdemo.msg.MqttConstant.START_MQTT_SERVICE;
+
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener ,IGetMessageCallBack {
     public static final String TAG = "liu.js";
     private static final int TYPE_NONE = -1;
     private static final int TYPE_PASSWORD_OPEN = 1;
@@ -56,10 +69,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private TRTCCalling mTRTCCalling;
 
+    private MyServiceConnection serviceConnection;
+
+
+
     private TRTCCallingDelegate mTRTCCallingDelegate = new TRTCCallingDelegate() {
         // <editor-fold  desc="视频监听代码">
         @Override
         public void onError(int code, String msg) {
+
         }
 
         @Override
@@ -192,13 +210,41 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
     }
 
+    private void startMqttService(){
+        ACache mCache = ACache.get(this);
+        ServerConfig serverConfig = (ServerConfig)mCache.getAsObject("ServerConfig");
+        if(serverConfig != null) {
+            if (serviceConnection == null) {
+                serviceConnection = new MyServiceConnection();
+                serviceConnection.setIGetMessageCallBack(HomeActivity.this);
+                Intent intent = new Intent(this, MQTTService.class);
+                bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+            }
+        }
+    }
+
+    @Override
+    public void onMessageArrived(String message) {
+        System.out.println("message"+message);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetMessage(MessageWrap message) {
+        if(message.getCode()== MqttConstant.START_MQTT_SERVICE){
+            startMqttService();
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(serviceConnection != null) {
+            unbindService(serviceConnection);
+        }
+        EventBus.getDefault().unregister(this);
+
         if (mTRTCCalling != null) {
             mTRTCCalling.removeDelegate(mTRTCCallingDelegate);
         }
@@ -215,7 +261,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         IflytekHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_home);
+
+        EventBus.getDefault().register(this);
+
         initView();
+
+        startMqttService();
     }
 
     private void initView() {
@@ -399,4 +450,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
         objectAnimator.start();
     }
+
+
 }

@@ -37,6 +37,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
+        android:text="tcp://8.134.9.85"
         android:background="@drawable/edit_bg"
         android:layout_centerVertical="true"
         android:hint="请输入服务地址"
@@ -72,7 +73,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:hint="请输入服务端口"
+        android:text="1883"
         android:textColor="#232323"/>
 
   </RelativeLayout>
@@ -107,7 +108,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:hint="请输入通信协议"
+        android:text="MQTT"
         android:textColor="#232323"/>
   </RelativeLayout>
 
@@ -141,7 +142,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:hint="请输入客户端ID"
+        android:text="device_2"
         android:textColor="#232323"/>
   </RelativeLayout>
 
@@ -174,7 +175,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:hint="请输入设备名称"
+        android:text="device_2"
         android:textColor="#232323"/>
 
   </RelativeLayout>
@@ -209,7 +210,7 @@
         android:textCursorDrawable="@null"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:hint="请输入设备秘钥"
+        android:text="public"
         android:textColor="#232323"/>
 
   </RelativeLayout>
