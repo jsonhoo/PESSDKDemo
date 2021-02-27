@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yalantis.ucrop.UCrop;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 
@@ -156,7 +158,7 @@ public class AvatarManager {
      * @param uri 图片Uri
      */
     public void startZoomPhoto(Activity activity, final Uri uri) {
-        String path = getImagePath() + File.separator + AVATAR_CROP_NAME;
+        String path = genCropImagePath();
         setZoomImageSaveName(path);
         File file = new File(path);
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
@@ -191,7 +193,7 @@ public class AvatarManager {
      * @param inputUri 图片Uri
      */
     public void startCropPhotoForUCrop(final Uri inputUri, Activity activity) {
-        String path = getImagePath() + File.separator + AVATAR_CROP_NAME;
+        String path = genCropImagePath();
         setZoomImageSaveName(path);
         File file = new File(path);
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
@@ -199,5 +201,8 @@ public class AvatarManager {
         UCrop.of(inputUri, outputUri).withAspectRatio(1, 1).start(activity, REQUEST_CODE_PHOTO_COMPRESS);
     }
 
-
+    @NotNull
+    private String genCropImagePath() {
+        return getImagePath() + File.separator + System.currentTimeMillis() + AVATAR_CROP_NAME;
+    }
 }

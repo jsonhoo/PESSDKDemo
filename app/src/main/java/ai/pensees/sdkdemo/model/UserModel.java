@@ -13,155 +13,80 @@ import java.io.Serializable;
 @Entity
 public class UserModel implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @Id(autoincrement = true)
-    private long id;
     @Unique
-    private String userNo;
-    private String userName;
-    @Unique
-    private String carNo;
-    private String userAddress;
-    private String userPhone;
-
+    private String userId;
     @NotNull
     private String featureId;
     @NotNull
     private byte[] feature;
-    private String photoServerUrl;
-    private String photoLocalUri;
+    private String serverPhotoUrl;
+    private String localPhotoUri;
 
     private long createTime;
     private long updateTime;
     private boolean isAdmin;
-
-
-    @Generated(hash = 304963554)
-    public UserModel(long id, String userNo, String userName, String carNo,
-            String userAddress, String userPhone, @NotNull String featureId,
-            @NotNull byte[] feature, String photoServerUrl, String photoLocalUri,
+    @Generated(hash = 1156292099)
+    public UserModel(String userId, @NotNull String featureId,
+            @NotNull byte[] feature, String serverPhotoUrl, String localPhotoUri,
             long createTime, long updateTime, boolean isAdmin) {
-        this.id = id;
-        this.userNo = userNo;
-        this.userName = userName;
-        this.carNo = carNo;
-        this.userAddress = userAddress;
-        this.userPhone = userPhone;
+        this.userId = userId;
         this.featureId = featureId;
         this.feature = feature;
-        this.photoServerUrl = photoServerUrl;
-        this.photoLocalUri = photoLocalUri;
+        this.serverPhotoUrl = serverPhotoUrl;
+        this.localPhotoUri = localPhotoUri;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.isAdmin = isAdmin;
     }
-
     @Generated(hash = 782181818)
     public UserModel() {
     }
-
-
-    public long getId() {
-        return this.id;
+    public String getUserId() {
+        return this.userId;
     }
-
-    public void setId(long id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-
-    public String getUserNo() {
-        return this.userNo;
-    }
-
-    public void setUserNo(String userNo) {
-        this.userNo = userNo;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getCarNo() {
-        return this.carNo;
-    }
-
-    public void setCarNo(String carNo) {
-        this.carNo = carNo;
-    }
-
-    public String getUserAddress() {
-        return this.userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public String getUserPhone() {
-        return this.userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
-    }
-
     public String getFeatureId() {
         return this.featureId;
     }
-
     public void setFeatureId(String featureId) {
         this.featureId = featureId;
     }
-
-    public String getPhotoServerUrl() {
-        return this.photoServerUrl;
-    }
-
-    public void setPhotoServerUrl(String photoServerUrl) {
-        this.photoServerUrl = photoServerUrl;
-    }
-
-    public boolean getIsAdmin() {
-        return this.isAdmin;
-    }
-
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
     public byte[] getFeature() {
-        return feature;
+        return this.feature;
     }
-
     public void setFeature(byte[] feature) {
         this.feature = feature;
     }
-
-    public long getCreateTime() {
-        return createTime;
+    public String getServerPhotoUrl() {
+        return this.serverPhotoUrl;
     }
-
+    public void setServerPhotoUrl(String serverPhotoUrl) {
+        this.serverPhotoUrl = serverPhotoUrl;
+    }
+    public String getLocalPhotoUri() {
+        return this.localPhotoUri;
+    }
+    public void setLocalPhotoUri(String localPhotoUri) {
+        this.localPhotoUri = localPhotoUri;
+    }
+    public long getCreateTime() {
+        return this.createTime;
+    }
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
-
     public long getUpdateTime() {
-        return updateTime;
+        return this.updateTime;
     }
-
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
-
-    public String getPhotoLocalUri() {
-        return this.photoLocalUri;
+    public boolean getIsAdmin() {
+        return this.isAdmin;
     }
-
-    public void setPhotoLocalUri(String photoLocalUri) {
-        this.photoLocalUri = photoLocalUri;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

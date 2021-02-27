@@ -45,11 +45,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserModel userModel = userModelList.get(position);
-        Picasso.get().load(userModel.getPhotoServerUrl()).into( holder.img_avatar);
+        Picasso.get().load(userModel.getServerPhotoUrl()).into( holder.img_avatar);
 
-        holder.tv_user_name.setText(userModel.getUserName());
+//        holder.tv_user_name.setText(userModel.getUserName());
         holder.tv_mark_time.setText(TimeUtils.conversionTime(""+userModel.getCreateTime()));
-        holder.tv_user_card.setText(userModel.getCarNo());
+//        holder.tv_user_card.setText(userModel.getCarNo());
     }
 
     @Override

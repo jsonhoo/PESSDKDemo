@@ -45,14 +45,14 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         rb_manage = findViewById(R.id.rb_manage);
         img_avatar = findViewById(R.id.img_avatar);
 
-        input_user_no.setText(userModel.getCarNo());
-        input_user_name.setText(userModel.getUserName());
-        input_user_carNo.setText(userModel.getCarNo());
-        input_user_phone.setText(userModel.getUserPhone());
-        input_user_address.setText(userModel.getUserAddress());
+//        input_user_no.setText(userModel.getCarNo());
+//        input_user_name.setText(userModel.getUserName());
+//        input_user_carNo.setText(userModel.getCarNo());
+//        input_user_phone.setText(userModel.getUserPhone());
+//        input_user_address.setText(userModel.getUserAddress());
 
         rb_manage.setChecked(userModel.getIsAdmin());
-        Picasso.get().load("file://"+userModel.getPhotoServerUrl()).into(img_avatar);
+        Picasso.get().load("file://"+userModel.getServerPhotoUrl()).into(img_avatar);
     }
     @Override
     public void onClick(View v) {

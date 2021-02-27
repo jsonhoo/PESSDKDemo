@@ -3,6 +3,7 @@ package ai.pensees.sdkdemo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -52,7 +53,12 @@ public class FaceInputActivity extends AppCompatActivity {
         findViewById(R.id.tv_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extractFeatureAndSaveUser();
+                String uid = etUseId.getText().toString().trim();
+                if (TextUtils.isEmpty(uid)) {
+                    Toast.makeText(FaceInputActivity.this, "Uid不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                extractFeatureAndSaveUser(uid);
             }
         });
     }
@@ -85,7 +91,7 @@ public class FaceInputActivity extends AppCompatActivity {
         iv_face.setImageURI(uri);
     }
 
-    private void extractFeatureAndSaveUser() {
+    private void extractFeatureAndSaveUser(String uid) {
         String path = AvatarManager.getInstance().getZoomImageSaveName();
         File file = new File(path);
         final Uri uri = Uri.parse("file://" + file);
@@ -97,25 +103,24 @@ public class FaceInputActivity extends AppCompatActivity {
 
             @Override
             public void onExtractSuccess(@NotNull byte[] featureBytes) {
-                saveUser(path, featureBytes);
+                saveUser(uid, path, featureBytes);
             }
         });
     }
 
-    private void saveUser(String photoPath, byte[] featureBytes) {
+    private void saveUser(String uid, String photoPath, byte[] featureBytes) {
         UserModel userModel = new UserModel();
-        String uid = etUseId.getText().toString().trim();
-        userModel.setUserName(uid);
-        userModel.setCarNo(uid);
+        userModel.setUserId(uid);
         userModel.setFeature(featureBytes);
         userModel.setFeatureId(uid);
-        userModel.setPhotoLocalUri(photoPath);
+        userModel.setLocalPhotoUri(photoPath);
         final long currentTimeMillis = System.currentTimeMillis();
         userModel.setCreateTime(currentTimeMillis);
         userModel.setUpdateTime(currentTimeMillis);
         DaoManager.getInstance().getDaoSession().getUserModelDao().insertOrReplace(userModel);
         FaceHelper.INSTANCE.reloadCompareDB();
         Toast.makeText(FaceInputActivity.this, "用户信息保存成功", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
 

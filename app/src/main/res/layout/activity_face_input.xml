@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/white"
+        android:foreground="@drawable/home_btn_pressed_foreground"
         android:gravity="center"
         android:text="保存"
         android:textColor="@android:color/black"

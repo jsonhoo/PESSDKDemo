@@ -202,7 +202,7 @@
       android:textSize="20sp"
       android:text="保存"
       android:layout_marginTop="30dp"
-      android:background="@drawable/btn_selector"
+      android:foreground="@drawable/home_btn_pressed_foreground"
       android:layout_marginRight="20dp"
       android:layout_marginLeft="20dp"
       android:layout_width="match_parent"

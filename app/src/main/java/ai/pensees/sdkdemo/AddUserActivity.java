@@ -149,15 +149,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         boolean checked = rb_manage.isChecked();
 
         UserModel userModel = new UserModel();
-        userModel.setUserNo(userNo);
+        userModel.setUserId(userNo);
 
-        userModel.setPhotoServerUrl(capturePath);
+        userModel.setServerPhotoUrl(capturePath);
         userModel.setFeatureId(faceFeature.getFeatureId());
 
-        userModel.setUserName(userName);
-        userModel.setCarNo(userCard);
-        userModel.setUserPhone(userPhone);
-        userModel.setUserAddress(userAddress);
+//        userModel.setUserName(userName);
+//        userModel.setCarNo(userCard);
+//        userModel.setUserPhone(userPhone);
+//        userModel.setUserAddress(userAddress);
 
         userModel.setUpdateTime(System.currentTimeMillis());
         userModel.setCreateTime(System.currentTimeMillis());

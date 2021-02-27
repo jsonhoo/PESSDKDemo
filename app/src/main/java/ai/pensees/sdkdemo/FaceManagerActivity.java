@@ -7,7 +7,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import ai.pensees.sdkdemo.adapter.FaceListAdapter;
 import ai.pensees.sdkdemo.adapter.MyFaceRecordAdapter;
+import ai.pensees.sdkdemo.model.UserModel;
+import ai.pensees.sdkdemo.utils.DaoManager;
 import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 public class FaceManagerActivity extends AppCompatActivity {
 
     private RecyclerView rv_face_list;
-    private MyFaceRecordAdapter mAdapter;//适配器
+    private FaceListAdapter mAdapter;//适配器
     private LinearLayoutManager mLinearLayoutManager;//布局管理器
-    private List mList = new ArrayList();
+    private List<UserModel> mList = new ArrayList<>();
 
     private String deviceMac;
 
@@ -57,10 +59,23 @@ public class FaceManagerActivity extends AppCompatActivity {
         //创建布局管理器，垂直设置LinearLayoutManager.VERTICAL，水平设置LinearLayoutManager.HORIZONTAL
         mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         //创建适配器，将数据传递给适配器
-        mAdapter = new MyFaceRecordAdapter(mList);
+        mAdapter = new FaceListAdapter(mList);
         //设置布局管理器
         rv_face_list.setLayoutManager(mLinearLayoutManager);
         //设置适配器adapter
         rv_face_list.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    private void loadData() {
+        final List<UserModel> userModels = DaoManager.getInstance().getDaoSession().getUserModelDao().loadAll();
+        mList.clear();
+        mList.addAll(userModels);
+        mAdapter.notifyDataSetChanged();
     }
 }
