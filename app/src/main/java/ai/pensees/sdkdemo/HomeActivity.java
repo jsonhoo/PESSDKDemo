@@ -50,7 +50,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static ai.pensees.sdkdemo.msg.MqttConstant.START_MQTT_SERVICE;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener ,IGetMessageCallBack {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener, IGetMessageCallBack {
     public static final String TAG = "liu.js";
     private static final int TYPE_NONE = -1;
     private static final int TYPE_PASSWORD_OPEN = 1;
@@ -70,7 +70,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TRTCCalling mTRTCCalling;
 
     private MyServiceConnection serviceConnection;
-
 
 
     private TRTCCallingDelegate mTRTCCallingDelegate = new TRTCCallingDelegate() {
@@ -212,10 +211,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void startMqttService(){
+    private void startMqttService() {
         ACache mCache = ACache.get(this);
-        ServerConfig serverConfig = (ServerConfig)mCache.getAsObject("ServerConfig");
-        if(serverConfig != null) {
+        ServerConfig serverConfig = (ServerConfig) mCache.getAsObject("ServerConfig");
+        if (serverConfig != null) {
             if (serviceConnection == null) {
                 serviceConnection = new MyServiceConnection();
                 serviceConnection.setIGetMessageCallBack(HomeActivity.this);
@@ -227,12 +226,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onMessageArrived(String message) {
-        System.out.println("message"+message);
+        System.out.println("message" + message);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetMessage(MessageWrap message) {
-        if(message.getCode()== MqttConstant.START_MQTT_SERVICE){
+        if (message.getCode() == MqttConstant.START_MQTT_SERVICE) {
             startMqttService();
         }
     }
@@ -240,7 +239,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(serviceConnection != null) {
+        if (serviceConnection != null) {
             unbindService(serviceConnection);
         }
         EventBus.getDefault().unregister(this);
@@ -381,9 +380,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         switch (v.getId()) {
             case R.id.password_open:
-                FaceHelper.INSTANCE.extractFeature();
-//                mCallType = TYPE_PASSWORD_OPEN;
-//                mPasswordLayout.setVisibility(View.VISIBLE);
+                mCallType = TYPE_PASSWORD_OPEN;
+                mPasswordLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.phone_call:
                 mCallType = TYPE_PHONE_CALL;

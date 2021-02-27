@@ -9,8 +9,6 @@ import ai.pensees.sdkdemo.HomeActivity
 import ai.pensees.sdkdemo.PesHelper.TAG
 import ai.pensees.sdkdemo.PesHelper.pesfCompare
 import ai.pensees.sdkdemo.PessApplication
-import ai.pensees.sdkdemo.model.UserModel
-import ai.pensees.sdkdemo.utils.DaoManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -18,7 +16,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import com.blankj.utilcode.util.CollectionUtils
-import com.otaliastudios.cameraview.BitmapCallback
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.PictureResult
@@ -33,9 +30,6 @@ object FaceHelper {
     private var mHandlerThread: HandlerThread? = null
     private var mHandler: Handler? = null
     private var mCameraView: CameraView? = null;
-    private const val ACTION_COMPARE = "compare"
-    private const val ACTION_EXTRACT = "EXTRACT_FEATURE"
-    private var mAction: String = ACTION_COMPARE
     private var mTimer: Timer = Timer()
     private var mDoorIsOpen = false
     private var mIsInit = false
@@ -64,13 +58,7 @@ object FaceHelper {
         mHandler = Handler(mHandlerThread!!.looper)
     }
 
-    fun extractFeature() {
-        mAction = ACTION_EXTRACT
-        mHandler?.post(mTakePictureRunnable)
-    }
-
     fun takePictureAndCompare() {
-        mAction = ACTION_COMPARE
         mHandler?.removeCallbacks(mTakePictureRunnable)
         mHandler?.post(mTakePictureRunnable)
     }
@@ -83,53 +71,16 @@ object FaceHelper {
         mCameraView?.takePictureSnapshot()
     }
 
-    private var sUserNo = 0
-    private fun createUserModel(): UserModel {
-        val userModel = UserModel()
-        userModel.carNo = "1111111"
-        userModel.createTime = System.currentTimeMillis()
-        userModel.updateTime = System.currentTimeMillis()
-        userModel.userNo = "" + sUserNo
-        userModel.userName = "test1"
-        userModel.photoServerUrl = "faceUrl"
-        userModel.featureId = "featureId"
-        sUserNo++
-        return userModel
-    }
-
     private var mCameraListener = object : CameraListener() {
         override fun onPictureTaken(result: PictureResult) {
             super.onPictureTaken(result)
-            Log.d(HomeActivity.TAG, "onPictureTaken--Action=$mAction--")
+            Log.d(HomeActivity.TAG, "onPictureTaken--")
             if (!mIsInit) {
                 return
             }
-            if (ACTION_EXTRACT === mAction) {
-                result.toBitmap(BitmapCallback { bitmap ->
-                    Log.d(HomeActivity.TAG, "onPictureTaken-toRGB--Action$mAction--")
-                    //                    int count = PESFaceDetect.check(toRGB, size.getWidth(), size.getHeight(), SDKConstant.IMAGE_FORMAT_RGB);
-                    val size = result.size
-                    val toRGB = ImageUtils.bitmapToRGB(bitmap)
-                    val faceInfos = PESFaceDetect.detect(toRGB, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
-                    Log.d(HomeActivity.TAG, "onPictureTaken-detect--Action$mAction--")
-                    Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfos))
-                    if (CollectionUtils.size(faceInfos) == 0) {
-                        return@BitmapCallback
-                    }
-                    val featureBytes = PESFeature.extract(toRGB, faceInfos[0].landmark, size.width, size.height, SDKConstant.IMAGE_FORMAT_RGB)
-                    Log.d(HomeActivity.TAG, "onPictureTaken-extract--Action$mAction")
-                    val userModel: UserModel = createUserModel()
-                    userModel.feature = featureBytes
-                    Log.d(HomeActivity.TAG, "人脸数据录入成功--")
-                    DaoManager.getInstance().daoSession.userModelDao.insertOrReplace(userModel)
-                    reloadCompareDB()
-                    mAction = ACTION_COMPARE
-                })
-            } else {
-                mHandler?.removeCallbacks(mCompareRunnable)
-                mCompareRunnable.mResult = result
-                mHandler?.post(mCompareRunnable)
-            }
+            mHandler?.removeCallbacks(mCompareRunnable)
+            mCompareRunnable.mResult = result
+            mHandler?.post(mCompareRunnable)
         }
     }
 
@@ -182,28 +133,19 @@ object FaceHelper {
         }
     }
 
-    private class ExtractFeatureRunnable : Runnable {
-        private var mUri: Uri? = null
-        private var mCallback: ExtractCallback? = null
-
-        constructor(mUri: Uri?, mCallback: ExtractCallback?) {
-            this.mUri = mUri
-            this.mCallback = mCallback
-        }
-
+    private class ExtractFeatureRunnable(private var mUri: Uri?, private var mCallback: ExtractCallback?) : Runnable {
 
         override fun run() {
             val bitmap = BitmapFactory.decodeFile(mUri?.path)
             val toRGB = ImageUtils.bitmapToRGB(bitmap)
             val faceInfos = PESFaceDetect.detect(toRGB, bitmap.width, bitmap.height, SDKConstant.IMAGE_FORMAT_RGB)
-            Log.d(HomeActivity.TAG, "onPictureTaken-detect--Action$mAction--")
-            Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfos))
+            Log.d(HomeActivity.TAG, "ExtractFeature--Faces Count=" + CollectionUtils.size(faceInfos))
             if (CollectionUtils.size(faceInfos) == 0) {
                 mCallback?.onExtractError()
                 return
             }
             val featureBytes = PESFeature.extract(toRGB, faceInfos[0].landmark, bitmap.width, bitmap.height, SDKConstant.IMAGE_FORMAT_RGB)
-            Log.d(HomeActivity.TAG, "onPictureTaken-extract--Action$mAction")
+            Log.d(HomeActivity.TAG, "ExtractFeature--featureBytes$featureBytes")
             mCallback?.onExtractSuccess(featureBytes)
         }
 
