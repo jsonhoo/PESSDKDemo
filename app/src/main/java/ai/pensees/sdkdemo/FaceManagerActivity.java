@@ -14,6 +14,7 @@ import ai.pensees.sdkdemo.utils.DaoManager;
 import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +56,7 @@ public class FaceManagerActivity extends AppCompatActivity {
 
         deviceMac = getIntent().getStringExtra("deviceMac");
         rv_face_list = findViewById(R.id.rv_face_list);
+        rv_face_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //创建布局管理器，垂直设置LinearLayoutManager.VERTICAL，水平设置LinearLayoutManager.HORIZONTAL
         mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

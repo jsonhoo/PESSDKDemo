@@ -44,13 +44,13 @@ public class DeviceControlActivity extends AppCompatActivity implements View.OnC
             Intent intent = new Intent(DeviceControlActivity.this, FaceManagerActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tv_card) {
-            Intent intent = new Intent(DeviceControlActivity.this, CardRecordActivity.class);
+            Intent intent = new Intent(DeviceControlActivity.this, CardManagerActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tv_face_record) {
             Intent intent = new Intent(DeviceControlActivity.this, FaceRecognitionRecordActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tv_card_record) {
-            Intent intent = new Intent(DeviceControlActivity.this, CardRecordActivity.class);
+            Intent intent = new Intent(DeviceControlActivity.this, CardManagerActivity.class);
             startActivity(intent);
         }
     }

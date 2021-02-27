@@ -41,6 +41,7 @@ object FaceHelper {
         initThread()
         mIsInit = true
         mCameraView = cameraView
+        Log.d(HomeActivity.TAG, "add Camera Listener")
         mCameraView!!.addCameraListener(mCameraListener)
         mTimer.schedule(object : TimerTask() {
             override fun run() {
@@ -50,7 +51,7 @@ object FaceHelper {
                 }
             }
 
-        }, 3000, 1200)
+        }, 3000, 2000)
     }
 
     private fun initThread() {
@@ -157,7 +158,7 @@ object FaceHelper {
             return
         }
         Log.d(TAG, "open Door")
-        IflytekHelper.speaking(PessApplication.getApplication(), "识别成功，已开门")
+        IflytekHelper.speaking(PessApplication.getApplication(), "识别成功")
         mDoorIsOpen = true
         mHandler?.postDelayed({
             mDoorIsOpen = false
@@ -171,6 +172,7 @@ object FaceHelper {
         mHandler?.removeCallbacks(mCompareRunnable)
         mHandler?.removeCallbacks(mTakePictureRunnable)
         mCameraView?.removeCameraListener(mCameraListener)
+        Log.d(HomeActivity.TAG, "remove Camera Listener")
         mHandlerThread?.quitSafely()
         mHandlerThread = null
         mHandler = null

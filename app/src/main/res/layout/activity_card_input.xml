@@ -9,25 +9,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/et_userid"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:background="@drawable/item_selector"
-        android:textSize="16sp"
-        android:hint="请输入用户ID"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp">
 
-    <EditText
-        android:textSize="16sp"
-        android:id="@+id/et_card"
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="用户ID："
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_userid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:background="@drawable/item_selector"
+            android:hint="请输入用户ID"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="100009114"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:background="@drawable/item_selector"
-        android:hint="请输入卡号"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="卡号："
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:background="@drawable/item_selector"
+            android:hint="请输入卡号"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="200009114"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_save"
@@ -35,6 +65,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@android:color/white"
+        android:foreground="@drawable/home_btn_pressed_foreground"
         android:gravity="center"
         android:text="保存"
         android:textColor="@android:color/black"

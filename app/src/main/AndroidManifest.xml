@@ -64,9 +64,9 @@
         <activity android:name=".ServerConfigActivity" />
         <activity android:name=".UserManageActivity" />
 
-        <activity android:name=".CardActivity" />
+        <activity android:name=".CardInputActivity" />
         <activity android:name=".FaceInputActivity" />
-        <activity android:name=".CardRecordActivity" />
+        <activity android:name=".CardManagerActivity" />
         <activity android:name=".DeviceControlActivity" />
         <activity android:name=".FaceManagerActivity" />
         <activity android:name=".CardRecognitionRecordActivity" />

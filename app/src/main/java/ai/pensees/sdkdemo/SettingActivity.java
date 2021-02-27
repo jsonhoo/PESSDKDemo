@@ -63,7 +63,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.itemview_card_record:
-                intent = new Intent(SettingActivity.this, CardRecordActivity.class);
+                intent = new Intent(SettingActivity.this, CardManagerActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_config_network:
