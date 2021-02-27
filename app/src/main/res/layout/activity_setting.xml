@@ -49,6 +49,7 @@
       tools:ignore="InconsistentLayout" />
 
   <ai.pensees.sdkdemo.widget.ItemView
+      android:visibility="gone"
       android:id="@+id/itemview_face_record"
       android:layout_width="match_parent"
       android:layout_height="@dimen/item_height"
@@ -62,6 +63,7 @@
 
 
   <ai.pensees.sdkdemo.widget.ItemView
+      android:visibility="gone"
       android:id="@+id/itemview_card_record"
       android:layout_width="match_parent"
       android:layout_height="@dimen/item_height"

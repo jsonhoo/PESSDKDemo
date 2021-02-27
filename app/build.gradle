@@ -82,6 +82,10 @@ dependencies {
     //依赖一个utils类
     implementation 'com.blankj:utilcode:1.25.9'
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation 'com.yalantis:ucrop:2.2.0'
+    implementation 'com.zhouyou:rxeasyhttp:2.1.5'
 }
 
 

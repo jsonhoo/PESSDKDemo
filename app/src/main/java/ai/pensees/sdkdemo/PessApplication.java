@@ -3,6 +3,7 @@ package ai.pensees.sdkdemo;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.tencent.rtmp.TXLiveBase;
@@ -21,7 +22,7 @@ public class PessApplication extends MultiDexApplication {
         instance = this;
         DaoManager.getInstance().init(this);
         TXLiveBase.setConsoleEnabled(true);
-
+        Fresco.initialize(this);
         // 短视频licence设置
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

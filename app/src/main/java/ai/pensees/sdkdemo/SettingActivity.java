@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import ai.pensees.sdkdemo.widget.ItemView;
+import ai.pensees.sdkdemo.widget.TitleView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initView() {
+        TitleView titleView = findViewById(R.id.title);
+        titleView.setTitleText("系统设置");
+
         ItemView itemview_user = findViewById(R.id.itemview_user);
         itemview_user.setOnClickListener(this);
 
@@ -43,7 +47,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = null;
         switch (v.getId()) {
             case R.id.itemview_user:
-                intent = new Intent(SettingActivity.this, UserManageActivity.class);
+                intent = new Intent(SettingActivity.this, DeviceControlActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_service:
@@ -55,11 +59,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.itemview_face_record:
-                intent = new Intent(SettingActivity.this, FaceRcordActivity.class);
+                intent = new Intent(SettingActivity.this, FaceRecordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_card_record:
-                intent = new Intent(SettingActivity.this, CardRcordActivity.class);
+                intent = new Intent(SettingActivity.this, CardRecordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_config_network:

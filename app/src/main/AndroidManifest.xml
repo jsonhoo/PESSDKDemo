@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ai.pensees.sdkdemo">
 
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -58,12 +59,18 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity android:name=".AddUserActivity" />
-        <activity android:name=".CardRcordActivity" />
         <activity android:name=".DevicePositionConfigActivity" />
-        <activity android:name=".FaceRcordActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".ServerConfigActivity" />
         <activity android:name=".UserManageActivity" />
+
+        <activity android:name=".CardActivity" />
+        <activity android:name=".FaceActivity" />
+        <activity android:name=".CardRecordActivity" />
+        <activity android:name=".DeviceControlActivity" />
+        <activity android:name=".FaceRecordActivity" />
+        <activity android:name=".CardRecognitionRecordActivity" />
+        <activity android:name=".FaceRecognitionRecordActivity" />
 
         <!-- Mqtt服务 -->
         <service android:name="org.eclipse.paho.android.service.MqttService" />
