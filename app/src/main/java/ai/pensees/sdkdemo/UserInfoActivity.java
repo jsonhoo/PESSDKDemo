@@ -52,7 +52,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         input_user_address.setText(userModel.getUserAddress());
 
         rb_manage.setChecked(userModel.getIsAdmin());
-        Picasso.get().load("file://"+userModel.getFaceUrl()).into(img_avatar);
+        Picasso.get().load("file://"+userModel.getPhotoServerUrl()).into(img_avatar);
     }
     @Override
     public void onClick(View v) {

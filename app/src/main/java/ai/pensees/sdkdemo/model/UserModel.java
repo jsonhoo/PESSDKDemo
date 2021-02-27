@@ -28,17 +28,19 @@ public class UserModel implements Serializable {
     private String featureId;
     @NotNull
     private byte[] feature;
-    private String faceUrl;
+    private String photoServerUrl;
+    private String photoLocalUri;
 
     private long createTime;
     private long updateTime;
     private boolean isAdmin;
 
-    @Generated(hash = 1703904817)
+
+    @Generated(hash = 304963554)
     public UserModel(long id, String userNo, String userName, String carNo,
             String userAddress, String userPhone, @NotNull String featureId,
-            @NotNull byte[] feature, String faceUrl, long createTime,
-            long updateTime, boolean isAdmin) {
+            @NotNull byte[] feature, String photoServerUrl, String photoLocalUri,
+            long createTime, long updateTime, boolean isAdmin) {
         this.id = id;
         this.userNo = userNo;
         this.userName = userName;
@@ -47,66 +49,86 @@ public class UserModel implements Serializable {
         this.userPhone = userPhone;
         this.featureId = featureId;
         this.feature = feature;
-        this.faceUrl = faceUrl;
+        this.photoServerUrl = photoServerUrl;
+        this.photoLocalUri = photoLocalUri;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.isAdmin = isAdmin;
     }
+
     @Generated(hash = 782181818)
     public UserModel() {
     }
 
+
     public long getId() {
         return this.id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getUserNo() {
         return this.userNo;
     }
+
     public void setUserNo(String userNo) {
         this.userNo = userNo;
     }
+
     public String getUserName() {
         return this.userName;
     }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     public String getCarNo() {
         return this.carNo;
     }
+
     public void setCarNo(String carNo) {
         this.carNo = carNo;
     }
+
     public String getUserAddress() {
         return this.userAddress;
     }
+
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
     }
+
     public String getUserPhone() {
         return this.userPhone;
     }
+
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
+
     public String getFeatureId() {
         return this.featureId;
     }
+
     public void setFeatureId(String featureId) {
         this.featureId = featureId;
     }
-    public String getFaceUrl() {
-        return this.faceUrl;
+
+    public String getPhotoServerUrl() {
+        return this.photoServerUrl;
     }
-    public void setFaceUrl(String faceUrl) {
-        this.faceUrl = faceUrl;
+
+    public void setPhotoServerUrl(String photoServerUrl) {
+        this.photoServerUrl = photoServerUrl;
     }
+
     public boolean getIsAdmin() {
         return this.isAdmin;
     }
+
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
@@ -133,5 +155,13 @@ public class UserModel implements Serializable {
 
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getPhotoLocalUri() {
+        return this.photoLocalUri;
+    }
+
+    public void setPhotoLocalUri(String photoLocalUri) {
+        this.photoLocalUri = photoLocalUri;
     }
 }

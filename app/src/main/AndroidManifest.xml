@@ -65,12 +65,13 @@
         <activity android:name=".UserManageActivity" />
 
         <activity android:name=".CardActivity" />
-        <activity android:name=".FaceActivity" />
+        <activity android:name=".FaceInputActivity" />
         <activity android:name=".CardRecordActivity" />
         <activity android:name=".DeviceControlActivity" />
         <activity android:name=".FaceRecordActivity" />
         <activity android:name=".CardRecognitionRecordActivity" />
         <activity android:name=".FaceRecognitionRecordActivity" />
+        <activity android:name="com.yalantis.ucrop.UCropActivity" />
 
         <!-- Mqtt服务 -->
         <service android:name="org.eclipse.paho.android.service.MqttService" />
@@ -79,6 +80,16 @@
             android:enabled="true"
             android:exported="true" />
 
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files_path" />
+        </provider>
     </application>
 
 </manifest>

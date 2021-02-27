@@ -12,6 +12,8 @@ import ai.pensees.sdkdemo.PessApplication
 import ai.pensees.sdkdemo.model.UserModel
 import ai.pensees.sdkdemo.utils.DaoManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
@@ -73,6 +75,10 @@ object FaceHelper {
         mHandler?.post(mTakePictureRunnable)
     }
 
+    fun extractFeature(uri: Uri, callback: ExtractCallback) {
+        mHandler?.post(ExtractFeatureRunnable(uri, callback))
+    }
+
     private val mTakePictureRunnable = Runnable {
         mCameraView?.takePictureSnapshot()
     }
@@ -85,7 +91,7 @@ object FaceHelper {
         userModel.updateTime = System.currentTimeMillis()
         userModel.userNo = "" + sUserNo
         userModel.userName = "test1"
-        userModel.faceUrl = "faceUrl"
+        userModel.photoServerUrl = "faceUrl"
         userModel.featureId = "featureId"
         sUserNo++
         return userModel
@@ -116,11 +122,7 @@ object FaceHelper {
                     userModel.feature = featureBytes
                     Log.d(HomeActivity.TAG, "人脸数据录入成功--")
                     DaoManager.getInstance().daoSession.userModelDao.insertOrReplace(userModel)
-                    try {
-                        pesfCompare!!.reloadDB()
-                    } catch (e: PESFCompareException) {
-                        Log.e(HomeActivity.TAG, "", e)
-                    }
+                    reloadCompareDB()
                     mAction = ACTION_COMPARE
                 })
             } else {
@@ -128,6 +130,14 @@ object FaceHelper {
                 mCompareRunnable.mResult = result
                 mHandler?.post(mCompareRunnable)
             }
+        }
+    }
+
+    fun reloadCompareDB() {
+        try {
+            pesfCompare!!.reloadDB()
+        } catch (e: PESFCompareException) {
+            Log.e(HomeActivity.TAG, "", e)
         }
     }
 
@@ -172,6 +182,33 @@ object FaceHelper {
         }
     }
 
+    private class ExtractFeatureRunnable : Runnable {
+        private var mUri: Uri? = null
+        private var mCallback: ExtractCallback? = null
+
+        constructor(mUri: Uri?, mCallback: ExtractCallback?) {
+            this.mUri = mUri
+            this.mCallback = mCallback
+        }
+
+
+        override fun run() {
+            val bitmap = BitmapFactory.decodeFile(mUri?.path)
+            val toRGB = ImageUtils.bitmapToRGB(bitmap)
+            val faceInfos = PESFaceDetect.detect(toRGB, bitmap.width, bitmap.height, SDKConstant.IMAGE_FORMAT_RGB)
+            Log.d(HomeActivity.TAG, "onPictureTaken-detect--Action$mAction--")
+            Log.d(HomeActivity.TAG, "Faces Count=" + CollectionUtils.size(faceInfos))
+            if (CollectionUtils.size(faceInfos) == 0) {
+                mCallback?.onExtractError()
+                return
+            }
+            val featureBytes = PESFeature.extract(toRGB, faceInfos[0].landmark, bitmap.width, bitmap.height, SDKConstant.IMAGE_FORMAT_RGB)
+            Log.d(HomeActivity.TAG, "onPictureTaken-extract--Action$mAction")
+            mCallback?.onExtractSuccess(featureBytes)
+        }
+
+    }
+
     private fun openDoor() {
         if (mDoorIsOpen) {
             return
@@ -191,5 +228,10 @@ object FaceHelper {
         mHandler?.removeCallbacks(mCompareRunnable)
         mHandler?.removeCallbacks(mTakePictureRunnable)
         mCameraView?.removeCameraListener(mCameraListener)
+    }
+
+    interface ExtractCallback {
+        fun onExtractError();
+        fun onExtractSuccess(featureBytes: ByteArray);
     }
 }

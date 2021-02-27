@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
     <ai.pensees.sdkdemo.widget.TitleView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_face"
-        android:layout_gravity="center_horizontal"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         fresco:actualImageScaleType="focusCrop"
-        fresco:placeholderImage="@drawable/gtw2"
+        fresco:placeholderImage="@mipmap/camero_default"
         fresco:placeholderImageScaleType="fitCenter" />
 
 
     <EditText
-        android:layout_marginTop="10dp"
         android:id="@+id/et_userid"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
+        android:layout_marginTop="10dp"
         android:background="@drawable/item_selector"
         android:hint="请输入用户ID"
-        android:textSize="16sp"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:paddingRight="15dp"
+        android:text="100009114"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_save"

@@ -17,7 +17,6 @@ import com.blankj.utilcode.util.StringUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -152,7 +151,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         UserModel userModel = new UserModel();
         userModel.setUserNo(userNo);
 
-        userModel.setFaceUrl(capturePath);
+        userModel.setPhotoServerUrl(capturePath);
         userModel.setFeatureId(faceFeature.getFeatureId());
 
         userModel.setUserName(userName);

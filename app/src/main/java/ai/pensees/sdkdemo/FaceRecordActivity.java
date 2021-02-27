@@ -39,7 +39,7 @@ public class FaceRecordActivity extends AppCompatActivity {
         titleView.setRightText("录入", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FaceRecordActivity.this,FaceActivity.class);
+                Intent intent = new Intent(FaceRecordActivity.this, FaceInputActivity.class);
                 startActivity(intent);
             }
         });
