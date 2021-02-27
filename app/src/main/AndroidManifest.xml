@@ -68,7 +68,7 @@
         <activity android:name=".FaceInputActivity" />
         <activity android:name=".CardRecordActivity" />
         <activity android:name=".DeviceControlActivity" />
-        <activity android:name=".FaceRecordActivity" />
+        <activity android:name=".FaceManagerActivity" />
         <activity android:name=".CardRecognitionRecordActivity" />
         <activity android:name=".FaceRecognitionRecordActivity" />
         <activity android:name="com.yalantis.ucrop.UCropActivity" />

@@ -21,11 +21,11 @@ public class DeviceControlActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    private void initView(){
+    private void initView() {
         TitleView titleView = findViewById(R.id.title);
         titleView.setTitleText("参数录入");
 
-        TextView tv_face = findViewById(R.id.tv_face);
+        TextView tv_face = findViewById(R.id.tv_face_manager);
         tv_face.setOnClickListener(this);
 
         TextView tv_card = findViewById(R.id.tv_card);
@@ -40,17 +40,17 @@ public class DeviceControlActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.tv_face){
-            Intent intent = new Intent(DeviceControlActivity.this,FaceRecordActivity.class);
+        if (v.getId() == R.id.tv_face_manager) {
+            Intent intent = new Intent(DeviceControlActivity.this, FaceManagerActivity.class);
             startActivity(intent);
-        }else if(v.getId()==R.id.tv_card){
-            Intent intent = new Intent(DeviceControlActivity.this,CardRecordActivity.class);
+        } else if (v.getId() == R.id.tv_card) {
+            Intent intent = new Intent(DeviceControlActivity.this, CardRecordActivity.class);
             startActivity(intent);
-        }else if(v.getId()==R.id.tv_face_record){
-            Intent intent = new Intent(DeviceControlActivity.this,FaceRecordActivity.class);
+        } else if (v.getId() == R.id.tv_face_record) {
+            Intent intent = new Intent(DeviceControlActivity.this, FaceRecognitionRecordActivity.class);
             startActivity(intent);
-        }else if(v.getId()==R.id.tv_card_record){
-            Intent intent = new Intent(DeviceControlActivity.this,CardRecordActivity.class);
+        } else if (v.getId() == R.id.tv_card_record) {
+            Intent intent = new Intent(DeviceControlActivity.this, CardRecordActivity.class);
             startActivity(intent);
         }
     }

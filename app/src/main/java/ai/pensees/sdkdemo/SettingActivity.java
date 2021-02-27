@@ -59,7 +59,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.itemview_face_record:
-                intent = new Intent(SettingActivity.this, FaceRecordActivity.class);
+                intent = new Intent(SettingActivity.this, FaceManagerActivity.class);
                 startActivity(intent);
                 break;
             case R.id.itemview_card_record:

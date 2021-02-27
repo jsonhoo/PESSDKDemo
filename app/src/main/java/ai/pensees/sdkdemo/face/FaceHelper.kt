@@ -38,6 +38,7 @@ object FaceHelper {
         if (mIsInit) {
             return
         }
+        initThread()
         mIsInit = true
         mCameraView = cameraView
         mCameraView!!.addCameraListener(mCameraListener)
@@ -52,7 +53,7 @@ object FaceHelper {
         }, 3000, 1200)
     }
 
-    init {
+    private fun initThread() {
         mHandlerThread = HandlerThread("take-picture")
         mHandlerThread?.start()
         mHandler = Handler(mHandlerThread!!.looper)
@@ -170,6 +171,9 @@ object FaceHelper {
         mHandler?.removeCallbacks(mCompareRunnable)
         mHandler?.removeCallbacks(mTakePictureRunnable)
         mCameraView?.removeCameraListener(mCameraListener)
+        mHandlerThread?.quitSafely()
+        mHandlerThread = null
+        mHandler = null
     }
 
     interface ExtractCallback {

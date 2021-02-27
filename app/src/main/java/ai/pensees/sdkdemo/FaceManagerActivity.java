@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 
-public class FaceRecordActivity extends AppCompatActivity {
+public class FaceManagerActivity extends AppCompatActivity {
 
     private RecyclerView rv_face_list;
     private MyFaceRecordAdapter mAdapter;//适配器
@@ -39,7 +39,7 @@ public class FaceRecordActivity extends AppCompatActivity {
         titleView.setRightText("录入", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FaceRecordActivity.this, FaceInputActivity.class);
+                Intent intent = new Intent(FaceManagerActivity.this, FaceInputActivity.class);
                 startActivity(intent);
             }
         });

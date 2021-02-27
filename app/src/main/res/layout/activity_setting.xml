@@ -56,7 +56,7 @@
       android:layout_marginTop="20dp"
       android:background="@drawable/item_selector"
       android:clickable="true"
-      android:text="人脸记录"
+      android:text="人脸识别记录"
       itemview:item_left_img_res="@mipmap/user_my_posts"
       itemview:item_right_img_res="@mipmap/arrow_right"
       tools:ignore="InconsistentLayout" />
